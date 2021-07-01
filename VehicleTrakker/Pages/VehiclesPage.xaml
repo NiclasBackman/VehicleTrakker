@@ -1,0 +1,45 @@
+﻿<Page
+    x:Class="NavigationTest.VehiclesPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:NavigationTest"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:converters="using:VehicleTrakker.Converters"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <local:SelectedVehicleToVisibilityConverter x:Key="selectedVehicleToVisibilityConverter"/>
+        <converters:BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter"/>
+    </Page.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <!--<ColumnDefinition Width="*"/>-->
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="0"  Orientation="Horizontal">
+            <Button FontFamily="Segoe MDL2 Assets" Content="&#xE710;" FontSize="30" Command="{Binding AddVehicleCommand}" Background="Transparent" Width="50" Margin="10,7,0,0" ToolTipService.ToolTip="Click to define a new vehicle" VerticalAlignment="Top"/>
+            <Button FontFamily="Segoe MDL2 Assets" Content="&#xE8B5;" FontSize="30" Command="{Binding ImportVehicleCommand}" Background="Transparent" Width="50" 
+                    Margin="10,7,0,0" ToolTipService.ToolTip="Click to import a new vehicle from file" VerticalAlignment="Top"
+                    Visibility="{Binding ExportImportIsEnabled, Converter={StaticResource booleanToVisibilityConverter}}"/>
+        </StackPanel>
+        <ListView Grid.Row="1" ItemsSource="{Binding Vehicles}" Grid.ColumnSpan="1">
+            <ItemsControl ItemsSource="{Binding Path=ListOfObjects}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <local:VehicleUserControl DataContext="{Binding .}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ListView>
+    </Grid>
+</Page>

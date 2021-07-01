@@ -1,0 +1,19 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/NavigationTest/bin/x86/Debug
+/NavigationTest/obj
+/NavigationTest/bin/x64/Debug
+/NavigationTest/bin/ARM/Debug
+/NavigationTest/bin/x86/Release
+/NavigationTest/AppPackages/VehicleTrakker_1.0.1.0_Test
+/NavigationTest/bin/x64/Release
+/NavigationTest/BundleArtifacts
+/NavigationTest/AppPackages
+/NavigationTest/bin/ARM/Release
+/VehicleTrakker/AppPackages
+/VehicleTrakker/bin/x64/Debug
+/VehicleTrakker/BundleArtifacts
+/VehicleTrakker/obj

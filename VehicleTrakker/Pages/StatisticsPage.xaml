@@ -1,0 +1,371 @@
+﻿<Page
+    x:Class="NavigationTest.StatisticsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:NavigationTest"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:chart="using:Telerik.UI.Xaml.Controls.Chart" xmlns:viewmodels="using:VehicleTrakker.ViewModels"
+    xmlns:telerikUniversalChartPrimitives="using:Telerik.UI.Xaml.Controls.Chart.Primitives"
+    xmlns:telerikUniversalChart="using:Telerik.UI.Xaml.Controls.Chart" xmlns:local1="using:Sales_Dashboard" xmlns:converters="using:VehicleTrakker.Converters"
+    mc:Ignorable="d"
+    x:Name="nic"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <converters:VehicleEngineTypeToFuelStatisticsVisibility x:Key="vehicleEngineTypeToFuelStatisticsVisibility"/>
+        <converters:VehicleEngineTypeToChargingStatisticsVisibility x:Key="vehicleEngineTypeToChargingStatisticsVisibility"/>
+        <chart:ChartPalette x:Key="CustomPalette">
+            <chart:ChartPalette.FillEntries>
+                <chart:PaletteEntryCollection>
+                    <SolidColorBrush Color="#FF68d5e6"></SolidColorBrush>
+                    <SolidColorBrush Color="#FFec9e90"></SolidColorBrush>
+                    <SolidColorBrush Color="#FFffbf4d"></SolidColorBrush>
+                    <SolidColorBrush Color="#FF695e62"></SolidColorBrush>
+                    <SolidColorBrush Color="#709030"></SolidColorBrush>
+                    <SolidColorBrush Color="#f7f36d"></SolidColorBrush>
+                    <SolidColorBrush Color="#80f571"></SolidColorBrush>
+                    <SolidColorBrush Color="#56a8f5"></SolidColorBrush>
+                    <SolidColorBrush Color="#eb5bf5"></SolidColorBrush>
+                    <SolidColorBrush Color="#8c52f7"></SolidColorBrush>
+                    <SolidColorBrush Color="#f757a1"></SolidColorBrush>
+                    <SolidColorBrush Color="#f55151"></SolidColorBrush>
+                </chart:PaletteEntryCollection>
+            </chart:ChartPalette.FillEntries>
+            <chart:ChartPalette.StrokeEntries>
+                <chart:PaletteEntryCollection>
+                    <SolidColorBrush Color="#00c1c1"></SolidColorBrush>
+                    <SolidColorBrush Color="#c04d4d"></SolidColorBrush>
+                    <SolidColorBrush Color="#FFffa008"></SolidColorBrush>
+                    <SolidColorBrush Color="#303030"></SolidColorBrush>
+                </chart:PaletteEntryCollection>
+            </chart:ChartPalette.StrokeEntries>
+        </chart:ChartPalette>
+        <chart:ChartPalette x:Key="CustomSelectionPalette">
+            <chart:ChartPalette.FillEntries>
+                <chart:PaletteEntryCollection>
+                    <SolidColorBrush Color="#00c1c1"></SolidColorBrush>
+                    <SolidColorBrush Color="#c04d4d"></SolidColorBrush>
+                    <SolidColorBrush Color="#FFffa008"></SolidColorBrush>
+                    <SolidColorBrush Color="#303030"></SolidColorBrush>
+                    <SolidColorBrush Color="#708030"></SolidColorBrush>
+                    <SolidColorBrush Color="#faf205"></SolidColorBrush>
+                    <SolidColorBrush Color="#1ef002"></SolidColorBrush>
+                    <SolidColorBrush Color="#0582f7"></SolidColorBrush>
+                    <SolidColorBrush Color="#bd07f5"></SolidColorBrush>
+                    <SolidColorBrush Color="#5802f7"></SolidColorBrush>
+                    <SolidColorBrush Color="#f00572"></SolidColorBrush>
+                    <SolidColorBrush Color="#fc0000"></SolidColorBrush>
+                </chart:PaletteEntryCollection>
+            </chart:ChartPalette.FillEntries>
+            <chart:ChartPalette.StrokeEntries>
+                <chart:PaletteEntryCollection>
+                    <SolidColorBrush Color="#00c1c1"></SolidColorBrush>
+                    <SolidColorBrush Color="#c04d4d"></SolidColorBrush>
+                    <SolidColorBrush Color="#FFffa008"></SolidColorBrush>
+                    <SolidColorBrush Color="#303030"></SolidColorBrush>
+                    <SolidColorBrush Color="#708030"></SolidColorBrush>
+                </chart:PaletteEntryCollection>
+            </chart:ChartPalette.StrokeEntries>
+        </chart:ChartPalette>
+        <Style TargetType="chart:RadPieChart" x:Key="RadPieChartStyle">
+            <Setter Property="FontSize" Value="19" />
+            <Setter Property="Width" Value="300" />
+            <Setter Property="Height" Value="300" />
+            <Setter Property="Margin" Value="0" />
+        </Style>
+        <SolidColorBrush Color="#444444" x:Key="BarSeriesBackground" />
+        <Style x:Key="LabelText" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="22" />
+        </Style>
+        <Style x:Key="LabelTextPrice" TargetType="TextBlock" BasedOn="{StaticResource LabelText}" />
+        <local1:IntersectionPointConverter x:Key="IntersectionPointConverter"/>
+
+        <chart:ChartPalette x:Key="CustomPaletteTrend">
+            <chart:ChartPalette.FillEntries>
+                <chart:PaletteEntryCollection>
+                    <SolidColorBrush Color="#FF68d5e6"></SolidColorBrush>
+                    <SolidColorBrush Color="#FFffa008"></SolidColorBrush>
+                </chart:PaletteEntryCollection>
+            </chart:ChartPalette.FillEntries>
+            <chart:ChartPalette.StrokeEntries>
+                <chart:PaletteEntryCollection>
+                    <SolidColorBrush Color="#FF68d5e6"></SolidColorBrush>
+                    <SolidColorBrush Color="#FFffa008"></SolidColorBrush>
+                </chart:PaletteEntryCollection>
+            </chart:ChartPalette.StrokeEntries>
+        </chart:ChartPalette>
+
+    </Page.Resources>
+    <ScrollViewer>
+        <RelativePanel>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="2">
+                    <TextBlock Text="Vehicle: " Margin="10,5,10,0" Style="{StaticResource AttributeLabelTextStyle}"/>
+                    <ComboBox ItemsSource="{Binding Vehicles}" SelectedItem="{Binding SelectedVehicle, Mode=TwoWay}" Margin="10,0,10,0" ToolTipService.ToolTip="Select the current vehicle" BorderBrush="Transparent">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{Binding Brand, Converter={StaticResource explicitBrandNameToImageConverter}, Mode=TwoWay}" Width="25" Height="25"/>
+                                    <TextBlock Text="{Binding Path=Name}" Margin="10,0,0,0"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </StackPanel>
+                <!--<StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="2">
+                    <TextBlock Text="Current Vehicle: " Margin="10" Style="{StaticResource AttributeLabelTextStyle}"/>
+                    <ComboBox ItemsSource="{Binding Vehicles}" SelectedItem="{Binding SelectedVehicle, Mode=TwoWay}" DisplayMemberPath="Name" Width="200" Margin="10,5,10,10" ToolTipService.ToolTip="Select the current vehicle"/>
+                    <Image Source="{Binding SelectedVehicle, Converter={StaticResource brandNameToImageConverter}, Mode=TwoWay}" Margin="10,5,10,10" Height="30"/>
+                </StackPanel>-->
+                <TextBlock Grid.Row="1" Text="Cost summary" Margin="10 0 0 0" HorizontalAlignment="Left" FontFamily="Segoe UI" FontSize="20" Foreground="#FF4b4b4b" />
+                <Grid Grid.Row="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <chart:RadPieChart Grid.Row="0" Grid.Column="0" Margin="10,0,0,0" Palette="{StaticResource CustomPalette}" SelectionPalette="{StaticResource CustomSelectionPalette}" Style="{StaticResource RadPieChartStyle}" x:Name="myChart" ClipToBounds="False">
+                        <chart:RadPieChart.Behaviors>
+                            <chart:ChartSelectionBehavior DataPointSelectionMode="Single"/>
+                        </chart:RadPieChart.Behaviors>
+                        <chart:PieSeries RadiusFactor="0.8" ShowLabels="True" ItemsSource="{Binding SummaryStatistics}" SelectedPointOffset="0.1">
+                            <chart:PieSeries.ValueBinding>
+                                <chart:PropertyNameDataPointBinding PropertyName="Amount" />
+                            </chart:PieSeries.ValueBinding>
+                        </chart:PieSeries>
+                    </chart:RadPieChart>
+                    <chart:RadCartesianChart Grid.Row="0" Grid.Column="1" Margin="20,40,0,0"  ClipToBounds="False" SelectionPalette="{StaticResource CustomSelectionPalette}"  Palette="{StaticResource CustomPalette}">
+                        <chart:RadCartesianChart.Behaviors>
+                            <chart:ChartSelectionBehavior DataPointSelectionMode="Single"/>
+                        </chart:RadCartesianChart.Behaviors>
+                        <chart:RadCartesianChart.HorizontalAxis>
+                            <chart:LinearAxis Visibility="Collapsed"/>
+                        </chart:RadCartesianChart.HorizontalAxis>
+                        <chart:RadCartesianChart.VerticalAxis>
+                            <chart:CategoricalAxis GapLength="0.3" Visibility="Collapsed"/>
+                        </chart:RadCartesianChart.VerticalAxis>
+                        <chart:BarSeries ItemsSource="{Binding SummaryStatistics}"  CombineMode="Cluster">
+                            <chart:BarSeries.CategoryBinding>
+                                <chart:PropertyNameDataPointBinding PropertyName="Category"/>
+                            </chart:BarSeries.CategoryBinding>
+                            <chart:BarSeries.PointTemplate>
+                                <DataTemplate>
+                                    <Rectangle Fill="{StaticResource BarSeriesBackground}" Height="0" />
+                                </DataTemplate>
+                            </chart:BarSeries.PointTemplate>
+                        </chart:BarSeries>
+                        <chart:BarSeries ClipToPlotArea="False" PaletteMode="DataPoint" ItemsSource="{Binding SummaryStatistics}" CombineMode="Cluster" ShowLabels="True">
+                            <chart:BarSeries.ValueBinding>
+                                <chart:PropertyNameDataPointBinding PropertyName="Amount"/>
+                            </chart:BarSeries.ValueBinding>
+                            <chart:BarSeries.CategoryBinding>
+                                <chart:PropertyNameDataPointBinding PropertyName="Category"/>
+                            </chart:BarSeries.CategoryBinding>
+                            <chart:BarSeries.LabelDefinitions>
+                                <chart:ChartSeriesLabelDefinition HorizontalAlignment="Left" VerticalAlignment="Top">
+                                    <chart:ChartSeriesLabelDefinition.Template>
+                                        <DataTemplate>
+                                            <Canvas>
+                                                <Grid Width="310" Margin="0 -30 0 0">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Text="{Binding DataItem.Category}" Style="{StaticResource LabelText}"/>
+                                                    <StackPanel Orientation="Horizontal"  Grid.Column="1">
+                                                        <TextBlock Text="{Binding DataItem.Amount}" Style="{StaticResource LabelTextPrice}"/>
+                                                        <!--<TextBlock Text="{Binding CurrencyLabel, Mode=TwoWay, RelativeSource={RelativeSource Self}}" Margin="10,0,0,0" Foreground="Black" Style="{StaticResource LabelText}"/>-->
+                                                        <TextBlock Text="{Binding Path=DataContext.CurrencyLabel, ElementName=nic}" />
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Canvas>
+                                        </DataTemplate>
+                                    </chart:ChartSeriesLabelDefinition.Template>
+                                </chart:ChartSeriesLabelDefinition>
+                            </chart:BarSeries.LabelDefinitions>
+                        </chart:BarSeries>
+                    </chart:RadCartesianChart>
+                </Grid>
+                <!--<TextBlock Grid.Row="2" Text="Fuelstats here..." HorizontalAlignment="Center" VerticalAlignment="Center"/>-->
+                <TextBlock Name="xx" Grid.Row="3" Text="{Binding FuelConsumptionTextHeader}" Margin="10 0 0 0" HorizontalAlignment="Left" FontFamily="Segoe UI" FontSize="20" Foreground="#FF4b4b4b" Visibility="{Binding SelectedVehicle, Converter={StaticResource vehicleEngineTypeToFuelStatisticsVisibility}}"/>
+                <telerikUniversalChart:RadCartesianChart MinHeight="300" Grid.Row="4" Grid.ColumnSpan="1" HorizontalAlignment="Stretch" Margin="10 20 0 0" Palette="{StaticResource CustomPalette}" ClipToBounds="False" Visibility="{Binding SelectedVehicle, Converter={StaticResource vehicleEngineTypeToFuelStatisticsVisibility}}">
+                    <telerikUniversalChart:RadCartesianChart.Grid>
+                        <telerikUniversalChart:CartesianChartGrid MajorLinesVisibility="Y"/>
+                    </telerikUniversalChart:RadCartesianChart.Grid>
+                    <telerikUniversalChart:RadCartesianChart.Behaviors>
+                        <telerikUniversalChart:ChartTrackBallBehavior InfoMode="Multiple" ShowIntersectionPoints="True" SnapMode="ClosestPoint">
+                            <telerikUniversalChart:ChartTrackBallBehavior.LineStyle>
+                                <Style TargetType="Polyline">
+                                    <Setter Property="Stroke" Value="#000000"/>
+                                </Style>
+                            </telerikUniversalChart:ChartTrackBallBehavior.LineStyle>
+                            <telerikUniversalChart:ChartTrackBallBehavior.InfoStyle>
+                                <Style TargetType="telerikUniversalChartPrimitives:TrackBallInfoControl">
+                                    <Setter Property="Background" Value="White"/>
+                                    <Setter Property="BorderBrush" Value="#808080" />
+                                    <Setter Property="BorderThickness" Value="2" />
+                                </Style>
+                            </telerikUniversalChart:ChartTrackBallBehavior.InfoStyle>
+                        </telerikUniversalChart:ChartTrackBallBehavior>
+                    </telerikUniversalChart:RadCartesianChart.Behaviors>
+                    <telerikUniversalChart:RadCartesianChart.HorizontalAxis>
+                        <telerikUniversalChart:DateTimeContinuousAxis LabelInterval="3" LabelFormat="{}{0:dd-MM}"  LabelFitMode="Rotate"/>
+                    </telerikUniversalChart:RadCartesianChart.HorizontalAxis>
+                    <telerikUniversalChart:RadCartesianChart.VerticalAxis >
+                        <telerikUniversalChart:LinearAxis HorizontalLocation="Right"/>
+                    </telerikUniversalChart:RadCartesianChart.VerticalAxis>
+                    <telerikUniversalChart:RadCartesianChart.SeriesProvider >
+                        <telerikUniversalChart:ChartSeriesProvider x:Name="fuelprovider" Source="{Binding FuelConsumptionSerie}" >
+                            <telerikUniversalChart:ChartSeriesProvider.SeriesDescriptors>
+                                <local1:CustomSeriesDescriptor>
+                                    <local1:CustomSeriesDescriptor.TrackInfoTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Margin="5 2" FontSize="12" FontWeight="SemiLight" Foreground="{Binding Converter={StaticResource IntersectionPointConverter},ConverterParameter={StaticResource CustomPalette}}">
+                                            <Run Text="{Binding DataPoint.DataItem.Category}" />
+                                            <Run Text=":" />
+                                                </TextBlock>
+                                                <TextBlock Text="{Binding DataPoint.DataItem.Amount}" Margin="5 2" Foreground="#000000"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </local1:CustomSeriesDescriptor.TrackInfoTemplate>
+                                    <local1:CustomSeriesDescriptor.IntersectionPointTemplate>
+                                        <DataTemplate>
+                                            <Ellipse Width="10" Height="10" Stroke="#000000" StrokeThickness="1" 
+                                                                 Fill="{Binding Converter={StaticResource IntersectionPointConverter},ConverterParameter={StaticResource CustomPalette}}"/>
+                                        </DataTemplate>
+                                    </local1:CustomSeriesDescriptor.IntersectionPointTemplate>
+                                </local1:CustomSeriesDescriptor>
+                            </telerikUniversalChart:ChartSeriesProvider.SeriesDescriptors>
+                        </telerikUniversalChart:ChartSeriesProvider>
+                    </telerikUniversalChart:RadCartesianChart.SeriesProvider>
+                </telerikUniversalChart:RadCartesianChart>
+
+                <TextBlock Grid.Row="5" Text="{Binding EnergyConsumptionTextHeader}" Margin="10 0 0 0" HorizontalAlignment="Left" FontFamily="Segoe UI" FontSize="20" Foreground="#FF4b4b4b" Visibility="{Binding SelectedVehicle, Converter={StaticResource vehicleEngineTypeToChargingStatisticsVisibility}}"/>
+                <telerikUniversalChart:RadCartesianChart MinHeight="300" Grid.Row="6" Grid.ColumnSpan="1" HorizontalAlignment="Stretch" Margin="10 20 0 0" Palette="{StaticResource CustomPalette}" ClipToBounds="False" Visibility="{Binding SelectedVehicle, Converter={StaticResource vehicleEngineTypeToChargingStatisticsVisibility}}">
+                    <telerikUniversalChart:RadCartesianChart.Grid>
+                        <telerikUniversalChart:CartesianChartGrid MajorLinesVisibility="Y"/>
+                    </telerikUniversalChart:RadCartesianChart.Grid>
+                    <telerikUniversalChart:RadCartesianChart.Behaviors>
+                        <telerikUniversalChart:ChartTrackBallBehavior InfoMode="Multiple" ShowIntersectionPoints="True" SnapMode="ClosestPoint">
+                            <telerikUniversalChart:ChartTrackBallBehavior.LineStyle>
+                                <Style TargetType="Polyline">
+                                    <Setter Property="Stroke" Value="#000000"/>
+                                </Style>
+                            </telerikUniversalChart:ChartTrackBallBehavior.LineStyle>
+                            <telerikUniversalChart:ChartTrackBallBehavior.InfoStyle>
+                                <Style TargetType="telerikUniversalChartPrimitives:TrackBallInfoControl">
+                                    <Setter Property="Background" Value="White"/>
+                                    <Setter Property="BorderBrush" Value="#808080" />
+                                    <Setter Property="BorderThickness" Value="2" />
+                                </Style>
+                            </telerikUniversalChart:ChartTrackBallBehavior.InfoStyle>
+                        </telerikUniversalChart:ChartTrackBallBehavior>
+                    </telerikUniversalChart:RadCartesianChart.Behaviors>
+                    <telerikUniversalChart:RadCartesianChart.HorizontalAxis>
+                        <telerikUniversalChart:DateTimeContinuousAxis LabelInterval="3" LabelFormat="{}{0:dd-MM}"  LabelFitMode="Rotate"/>
+                    </telerikUniversalChart:RadCartesianChart.HorizontalAxis>
+                    <telerikUniversalChart:RadCartesianChart.VerticalAxis >
+                        <telerikUniversalChart:LinearAxis HorizontalLocation="Right"/>
+                    </telerikUniversalChart:RadCartesianChart.VerticalAxis>
+                    <telerikUniversalChart:RadCartesianChart.SeriesProvider >
+                        <telerikUniversalChart:ChartSeriesProvider x:Name="energyprovider" Source="{Binding EnergyConsumptionSerie}" >
+                            <telerikUniversalChart:ChartSeriesProvider.SeriesDescriptors>
+                                <local1:CustomSeriesDescriptor>
+                                    <local1:CustomSeriesDescriptor.TrackInfoTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Margin="5 2" FontSize="12" FontWeight="SemiLight" Foreground="{Binding Converter={StaticResource IntersectionPointConverter},ConverterParameter={StaticResource CustomPalette}}">
+                                            <Run Text="{Binding DataPoint.DataItem.Category}" />
+                                            <Run Text=":" />
+                                                </TextBlock>
+                                                <TextBlock Text="{Binding DataPoint.DataItem.Amount}" Margin="5 2" Foreground="#000000"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </local1:CustomSeriesDescriptor.TrackInfoTemplate>
+                                    <local1:CustomSeriesDescriptor.IntersectionPointTemplate>
+                                        <DataTemplate>
+                                            <Ellipse Width="10" Height="10" Stroke="#000000" StrokeThickness="1" 
+                                                                 Fill="{Binding Converter={StaticResource IntersectionPointConverter},ConverterParameter={StaticResource CustomPalette}}"/>
+                                        </DataTemplate>
+                                    </local1:CustomSeriesDescriptor.IntersectionPointTemplate>
+                                </local1:CustomSeriesDescriptor>
+                            </telerikUniversalChart:ChartSeriesProvider.SeriesDescriptors>
+                        </telerikUniversalChart:ChartSeriesProvider>
+                    </telerikUniversalChart:RadCartesianChart.SeriesProvider>
+                </telerikUniversalChart:RadCartesianChart>
+
+                <TextBlock Grid.Row="7" Text="Cost trend" Margin="10 0 0 0" HorizontalAlignment="Left" FontFamily="Segoe UI" FontSize="20" Foreground="#FF4b4b4b"/>
+                <telerikUniversalChart:RadCartesianChart MinHeight="300" Grid.Row="8" Margin="10 20 0 0" Palette="{StaticResource CustomPalette}" ClipToBounds="False">
+                    <telerikUniversalChart:RadCartesianChart.Grid>
+                        <telerikUniversalChart:CartesianChartGrid MajorLinesVisibility="Y"/>
+                    </telerikUniversalChart:RadCartesianChart.Grid>
+                    <telerikUniversalChart:RadCartesianChart.Behaviors>
+                        <telerikUniversalChart:ChartTrackBallBehavior InfoMode="Multiple" ShowIntersectionPoints="True" SnapMode="ClosestPoint">
+                            <telerikUniversalChart:ChartTrackBallBehavior.LineStyle>
+                                <Style TargetType="Polyline">
+                                    <Setter Property="Stroke" Value="#000000"/>
+                                </Style>
+                            </telerikUniversalChart:ChartTrackBallBehavior.LineStyle>
+                            <telerikUniversalChart:ChartTrackBallBehavior.InfoStyle>
+                                <Style TargetType="telerikUniversalChartPrimitives:TrackBallInfoControl">
+                                    <Setter Property="Background" Value="White"/>
+                                    <Setter Property="BorderBrush" Value="#808080" />
+                                    <Setter Property="BorderThickness" Value="2" />
+                                </Style>
+                            </telerikUniversalChart:ChartTrackBallBehavior.InfoStyle>
+                        </telerikUniversalChart:ChartTrackBallBehavior>
+                    </telerikUniversalChart:RadCartesianChart.Behaviors>
+                    <telerikUniversalChart:RadCartesianChart.HorizontalAxis>
+                        <telerikUniversalChart:DateTimeContinuousAxis LabelInterval="3" LabelFormat="{}{0:dd-MM}"  LabelFitMode="Rotate"/>
+                    </telerikUniversalChart:RadCartesianChart.HorizontalAxis>
+                    <telerikUniversalChart:RadCartesianChart.VerticalAxis>
+                        <telerikUniversalChart:LinearAxis HorizontalLocation="Right"/>
+                    </telerikUniversalChart:RadCartesianChart.VerticalAxis>
+                    <telerikUniversalChart:RadCartesianChart.SeriesProvider >
+                        <telerikUniversalChart:ChartSeriesProvider x:Name="provider2" Source="{Binding CostTrend}" >
+                            <telerikUniversalChart:ChartSeriesProvider.SeriesDescriptors>
+                                <local1:CustomSeriesDescriptor>
+                                    <local1:CustomSeriesDescriptor.TrackInfoTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Margin="5 2" FontSize="12" FontWeight="SemiLight" Foreground="{Binding Converter={StaticResource IntersectionPointConverter},ConverterParameter={StaticResource CustomPalette}}">
+                                            <Run Text="{Binding DataPoint.DataItem.Category}" />
+                                            <Run Text=":" />
+                                                </TextBlock>
+                                                <TextBlock Text="{Binding DataPoint.DataItem.Amount}" Margin="5 2" Foreground="#000000"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </local1:CustomSeriesDescriptor.TrackInfoTemplate>
+                                    <local1:CustomSeriesDescriptor.IntersectionPointTemplate>
+                                        <DataTemplate>
+                                            <Ellipse Width="10" Height="10" Stroke="#000000" StrokeThickness="1" 
+                                                                 Fill="{Binding Converter={StaticResource IntersectionPointConverter},ConverterParameter={StaticResource CustomPalette}}"/>
+                                        </DataTemplate>
+                                    </local1:CustomSeriesDescriptor.IntersectionPointTemplate>
+                                </local1:CustomSeriesDescriptor>
+                            </telerikUniversalChart:ChartSeriesProvider.SeriesDescriptors>
+                        </telerikUniversalChart:ChartSeriesProvider>
+                    </telerikUniversalChart:RadCartesianChart.SeriesProvider>
+                </telerikUniversalChart:RadCartesianChart>
+            </Grid>
+        </RelativePanel>
+    </ScrollViewer>
+</Page>

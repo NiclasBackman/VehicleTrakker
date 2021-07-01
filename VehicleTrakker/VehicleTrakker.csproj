@@ -1,0 +1,607 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{363F2E2B-84FE-4D80-B558-AC89E5723784}</ProjectGuid>
+    <OutputType>AppContainerExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>VehicleTrakker</RootNamespace>
+    <AssemblyName>VehicleTrakker</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.19041.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
+    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+    <PackageCertificateThumbprint>318C9AB2063BB46069518DADC5AFEC7F08157D2F</PackageCertificateThumbprint>
+    <PackageCertificateKeyFile />
+    <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
+    <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
+    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
+    <GenerateTestArtifacts>True</GenerateTestArtifacts>
+    <AppxBundle>Always</AppxBundle>
+    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
+    <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
+    <OutputPath>bin\ARM\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM64'">
+    <OutputPath>bin\ARM64\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\ActionEventToLocationVisibilityConverter.cs" />
+    <Compile Include="Converters\ActionTypeToDescriptionConverter.cs" />
+    <Compile Include="Converters\ActionTypeToImageConverter.cs" />
+    <Compile Include="Converters\AttachmentsCountToBooleanConverter.cs" />
+    <Compile Include="Converters\AttachmentsToTooltipConverter.cs" />
+    <Compile Include="Converters\AttachmentsToVisibilityConverter.cs" />
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\CostRelatedEventToVisibilityConverter.cs" />
+    <Compile Include="Converters\CustomSeriesDescriptor.cs" />
+    <Compile Include="Converters\DistanceToLocalizedStringConverter.cs" />
+    <Compile Include="Converters\EngineTypeToImageConverter.cs" />
+    <Compile Include="Converters\EventTypeToDescriptionTextConverter.cs" />
+    <Compile Include="Converters\FileNameToImageSourceConverter.cs" />
+    <Compile Include="Converters\InspectionResultConverter.cs" />
+    <Compile Include="Converters\NumericValueLargerThanZeroToVisibilityVisibleConverter.cs" />
+    <Compile Include="Converters\NumericValueToFuelConsumptionConverter.cs" />
+    <Compile Include="Converters\NumericValueToMoneyConverter.cs" />
+    <Compile Include="Converters\ObjectIsNullToBooleanConverter.cs" />
+    <Compile Include="Converters\ObjectIsNullToVisibilityHiddenConverter.cs" />
+    <Compile Include="Converters\ReminderStateToImageSourceConverter.cs" />
+    <Compile Include="Converters\StringExistanceToVisibilityConverter.cs" />
+    <Compile Include="Converters\StringExistanceValueToBooleanConverter.cs" />
+    <Compile Include="Converters\VehicleEngineTypeToStatisticsVisibility.cs" />
+    <Compile Include="Converters\VehicleEngineTypeToVisibilityVisibleConverters.cs" />
+    <Compile Include="Data.cs" />
+    <Compile Include="DataDefinitions\ActionEvent.cs" />
+    <Compile Include="DataDefinitions\Attachment.cs" />
+    <Compile Include="DataDefinitions\ChargingEvent.cs" />
+    <Compile Include="DataDefinitions\EventGeoPosition.cs" />
+    <Compile Include="DataDefinitions\EventTypes.cs" />
+    <Compile Include="DataDefinitions\ExpenseEvent.cs" />
+    <Compile Include="DataDefinitions\InspectionEvent.cs" />
+    <Compile Include="DataDefinitions\Reminder.cs" />
+    <Compile Include="DataDefinitions\RepairEvent.cs" />
+    <Compile Include="DataDefinitions\ServiceEvent.cs" />
+    <Compile Include="DataDefinitions\Settings.cs" />
+    <Compile Include="DataDefinitions\TaxEvent.cs" />
+    <Compile Include="DataDefinitions\TollFeeEvent.cs" />
+    <Compile Include="DataDefinitions\WashEvent.cs" />
+    <Compile Include="EnumExtension.cs" />
+    <Compile Include="FloatExtension.cs" />
+    <Compile Include="ObservablePropertyAsync.cs" />
+    <Compile Include="Pages\AboutPage.xaml.cs">
+      <DependentUpon>AboutPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\EditEventPage.xaml.cs">
+      <DependentUpon>EditEventPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\MapPage.xaml.cs">
+      <DependentUpon>MapPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\NewEventPage.xaml.cs">
+      <DependentUpon>NewEventPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Services\AggregatedVehicle.cs" />
+    <Compile Include="Services\ApplicationService.cs" />
+    <Compile Include="Services\GeoService.cs" />
+    <Compile Include="Services\OperationType.cs" />
+    <Compile Include="Services\PersistentDataContainer.cs" />
+    <Compile Include="Services\ReminderChecker.cs" />
+    <Compile Include="Services\ReminderService.cs" />
+    <Compile Include="Services\ReminderToastConstants.cs" />
+    <Compile Include="Services\SettingsService.cs" />
+    <Compile Include="Services\StorageMetaData.cs" />
+    <Compile Include="UserControls\ActionUserControl.xaml.cs">
+      <DependentUpon>ActionUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ChargingUserControl.xaml.cs">
+      <DependentUpon>ChargingUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ExpenseUserControl.xaml.cs">
+      <DependentUpon>ExpenseUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\InspectionUserControl.xaml.cs">
+      <DependentUpon>InspectionUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ReminderUserControl.xaml.cs">
+      <DependentUpon>ReminderUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\RepairUserControl.xaml.cs">
+      <DependentUpon>RepairUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ServiceUserControl.xaml.cs">
+      <DependentUpon>ServiceUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\TaxUserControl.xaml.cs">
+      <DependentUpon>TaxUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\TollFeeUserControl.xaml.cs">
+      <DependentUpon>TollFeeUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\UserControlExtensions.cs" />
+    <Compile Include="UserControls\WashUserControl.xaml.cs">
+      <DependentUpon>WashUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\AboutPageViewModel.cs" />
+    <Compile Include="ViewModels\ActionEntry.cs" />
+    <Compile Include="ViewModels\ActionUserControlViewModel.cs" />
+    <Compile Include="ViewModels\AttachmentViewModel.cs" />
+    <Compile Include="Converters\BrandNameToImageConverter.cs" />
+    <Compile Include="Converters\DateTimeOffsetToStringConverter.cs" />
+    <Compile Include="DialogHelper.cs" />
+    <Compile Include="DataDefinitions\Event.cs" />
+    <Compile Include="EventImageMapping.cs" />
+    <Compile Include="Services\EventService.cs" />
+    <Compile Include="Pages\EventsPage.xaml.cs">
+      <DependentUpon>EventsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\ChargingUserControlViewModel.cs" />
+    <Compile Include="ViewModels\EditEventPageViewModel.cs" />
+    <Compile Include="ViewModels\EngineType.cs" />
+    <Compile Include="ViewModels\EngineTypeEntry.cs" />
+    <Compile Include="ViewModels\EventsPageViewModel.cs" />
+    <Compile Include="Converters\EventStateToVisibilityConverter.cs" />
+    <Compile Include="ViewModels\EventTemplateSelector.cs" />
+    <Compile Include="Converters\EventTypeToImageSourceConverter.cs" />
+    <Compile Include="DataDefinitions\FuelEvent.cs" />
+    <Compile Include="DataDefinitions\InsuranceEvent.cs" />
+    <Compile Include="Interfaces\IVehicleEventUserControl.cs" />
+    <Compile Include="UserControls\EditableEventUserControl.xaml.cs">
+      <DependentUpon>EditableEventUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\EventUserControl.xaml.cs">
+      <DependentUpon>EventUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\ValidGuidToVisibilityConverter.cs" />
+    <Compile Include="ViewModels\EditableEventUserControlViewModel.cs" />
+    <Compile Include="ViewModels\EventTypeSelectionVisualizationTypeImageMapping.cs" />
+    <Compile Include="ViewModels\EventUserControlViewModel.cs" />
+    <Compile Include="Pages\StatisticsPage.xaml.cs">
+      <DependentUpon>StatisticsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\EmptyUserControl.xaml.cs">
+      <DependentUpon>EmptyUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\FuelUserControl.xaml.cs">
+      <DependentUpon>FuelUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\InsuranceUserControl.xaml.cs">
+      <DependentUpon>InsuranceUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\VehiclesPage.xaml.cs">
+      <DependentUpon>VehiclesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\ExpenseUserControlViewModel.cs" />
+    <Compile Include="ViewModels\FilterViewModel.cs" />
+    <Compile Include="ViewModels\InspectionUserControlViewModel.cs" />
+    <Compile Include="ViewModels\MapConfigurationSettingsBase.cs" />
+    <Compile Include="ViewModels\MapPageViewModel.cs" />
+    <Compile Include="ViewModels\MapProjectionImageMapping.cs" />
+    <Compile Include="ViewModels\MapStyleImageMapping.cs" />
+    <Compile Include="ViewModels\NewEventPageViewModel.cs" />
+    <Compile Include="ViewModels\RemindersPageViewModel.cs" />
+    <Compile Include="ViewModels\ReminderViewModel.cs" />
+    <Compile Include="ViewModels\RepairUserControlViewModel.cs" />
+    <Compile Include="ViewModels\ServiceInterval.cs" />
+    <Compile Include="ViewModels\ServiceUserControlViewModel.cs" />
+    <Compile Include="ViewModels\SettingsPageViewModel.cs" />
+    <Compile Include="ViewModels\StatisticsPageViewModel.cs" />
+    <Compile Include="ViewModels\TaxUserControlViewModel.cs" />
+    <Compile Include="ViewModels\ThirdPartyProduct.cs" />
+    <Compile Include="ViewModels\TollFeeUserControlViewModel.cs" />
+    <Compile Include="ViewModels\VehicleBrand.cs" />
+    <Compile Include="ViewModels\VehiclePersistenceState.cs" />
+    <Compile Include="ViewModels\VehiclesPageViewModel.cs" />
+    <Compile Include="Pages\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\RemindersPage.xaml.cs">
+      <DependentUpon>RemindersPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ObservableProperty.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RelayCommand.cs" />
+    <Compile Include="Converters\SelectedVehicleToVisibilityConverter.cs" />
+    <Compile Include="Pages\SettingsPage.xaml.cs">
+      <DependentUpon>SettingsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DataDefinitions\Vehicle.cs" />
+    <Compile Include="Converters\VehiclePersistenceStateToUpperBorderColorConverter.cs" />
+    <Compile Include="Services\VehicleService.cs" />
+    <Compile Include="UserControls\VehicleUserControl.xaml.cs">
+      <DependentUpon>VehicleUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\VehicleUserControlViewModel.cs" />
+    <Compile Include="ViewModels\FuelUserControlViewModel.cs" />
+    <Compile Include="ViewModels\InsuranceUserControlViewModel.cs" />
+    <Compile Include="ViewModels\WashUserControlViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\BadgeLogo.scale-100.png" />
+    <Content Include="Assets\BadgeLogo.scale-125.png" />
+    <Content Include="Assets\BadgeLogo.scale-150.png" />
+    <Content Include="Assets\BadgeLogo.scale-200.png" />
+    <Content Include="Assets\BadgeLogo.scale-400.png" />
+    <Content Include="Assets\SplashScreen.scale-100.png" />
+    <Content Include="Assets\SplashScreen.scale-125.png" />
+    <Content Include="Assets\SplashScreen.scale-150.png" />
+    <Content Include="Assets\Square150x150Logo.scale-100.png" />
+    <Content Include="Assets\Square150x150Logo.scale-125.png" />
+    <Content Include="Assets\Square150x150Logo.scale-150.png" />
+    <Content Include="Assets\Square44x44Logo.scale-100.png" />
+    <Content Include="Assets\Square44x44Logo.scale-125.png" />
+    <Content Include="Assets\Square44x44Logo.scale-150.png" />
+    <Content Include="Assets\Square44x44Logo.scale-400.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-16.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-24.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-256.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-32.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-48.png" />
+    <Content Include="Assets\Square71x71Logo.scale-100.png" />
+    <Content Include="Assets\Square71x71Logo.scale-125.png" />
+    <Content Include="Assets\Square71x71Logo.scale-150.png" />
+    <Content Include="Assets\Square71x71Logo.scale-200.png" />
+    <Content Include="Assets\Square71x71Logo.scale-400.png" />
+    <Content Include="Assets\StoreLogo.scale-100.png" />
+    <Content Include="Assets\StoreLogo.scale-125.png" />
+    <Content Include="Assets\StoreLogo.scale-150.png" />
+    <Content Include="Assets\StoreLogo.scale-200.png" />
+    <Content Include="Assets\StoreLogo.scale-400.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-100.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-125.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-150.png" />
+    <Content Include="Images\Actions\acquired.png" />
+    <Content Include="Images\Actions\exclamation.png" />
+    <Content Include="Images\Actions\owner_change.png" />
+    <Content Include="Images\Actions\register.png" />
+    <Content Include="Images\Actions\sold.png" />
+    <Content Include="Images\Actions\unregister.png" />
+    <Content Include="Images\Brands\acura.png" />
+    <Content Include="Images\Brands\alfa_romeo.png" />
+    <Content Include="Images\Brands\aston_martin.png" />
+    <Content Include="Images\Brands\audi.png" />
+    <Content Include="Images\Brands\bmw.png" />
+    <Content Include="Images\Brands\chevrolet.png" />
+    <Content Include="Images\Brands\citroen.png" />
+    <Content Include="Images\Brands\ducati.png" />
+    <Content Include="Images\Events\Settings\event_selector_dropdown.png" />
+    <Content Include="Images\Events\Settings\event_selector_radial_menu.png" />
+    <Content Include="Images\Map\aerial.png" />
+    <Content Include="Images\Map\aerial_3D.png" />
+    <Content Include="Images\Map\aerial_3D_with_roads.png" />
+    <Content Include="Images\Map\aerial_with_roads.png" />
+    <Content Include="Images\Map\globe_projection.png" />
+    <Content Include="Images\Map\mercator_projection.png" />
+    <Content Include="Images\Map\road.png" />
+    <Content Include="Images\Map\terrain.png" />
+    <Content Include="Images\Vehicle\electric.png" />
+    <Content Include="Images\Events\action.png" />
+    <Content Include="Images\Events\attachment.png" />
+    <Content Include="Images\Events\blocked.png" />
+    <Content Include="Images\Events\charging_station.png" />
+    <Content Include="Images\Events\expenses.png" />
+    <Content Include="Images\Events\gas_station.png" />
+    <Content Include="Images\Events\insurance.png" />
+    <Content Include="Images\Events\notes.png" />
+    <Content Include="Images\Events\repair.png" />
+    <Content Include="Images\Events\service.png" />
+    <Content Include="Images\Events\tax.png" />
+    <Content Include="Images\Events\toll_fee.png" />
+    <Content Include="Images\Events\vehicle_inspection.png" />
+    <Content Include="Images\Events\wash.png" />
+    <Content Include="Images\Brands\ferrari.png" />
+    <Content Include="Images\Brands\fiat.png" />
+    <Content Include="Images\FileTypes\bmp-icon.png" />
+    <Content Include="Images\FileTypes\docx-win-icon.png" />
+    <Content Include="Images\FileTypes\gif-icon.png" />
+    <Content Include="Images\FileTypes\html-icon.png" />
+    <Content Include="Images\FileTypes\jpeg-icon.png" />
+    <Content Include="Images\FileTypes\pdf-icon.png" />
+    <Content Include="Images\FileTypes\png-icon.png" />
+    <Content Include="Images\FileTypes\text-icon.png" />
+    <Content Include="Images\FileTypes\xlsx-win-icon.png" />
+    <Content Include="Images\Brands\ford.png" />
+    <Content Include="Images\Brands\harley_davidson.png" />
+    <Content Include="Images\Brands\honda.png" />
+    <Content Include="Images\Brands\honda_motorcycle.png" />
+    <Content Include="Images\Brands\hyundai.png" />
+    <Content Include="Images\Brands\infiniti.png" />
+    <Content Include="Images\Inspection\fail.png" />
+    <Content Include="Images\Inspection\success.png" />
+    <Content Include="Images\Inspection\warning.png" />
+    <Content Include="Images\Brands\jaguar.png" />
+    <Content Include="Images\Brands\jeep.png" />
+    <Content Include="Images\Brands\kawasaki.png" />
+    <Content Include="Images\Brands\kia.png" />
+    <Content Include="Images\Brands\ktm.png" />
+    <Content Include="Images\Brands\lancia.png" />
+    <Content Include="Images\Brands\landrover.png" />
+    <Content Include="Images\Brands\lexus.png" />
+    <Content Include="Images\Vehicle\internal_combustion_engine.png" />
+    <Content Include="Images\Logo\VehicleTrakker_rectangle_with_name.jpg" />
+    <Content Include="Images\Logo\VehicleTrakker_square_with_name.jpg" />
+    <Content Include="Images\Brands\mazda.png" />
+    <Content Include="Images\Brands\mercedes.png" />
+    <Content Include="Images\Brands\mg.png" />
+    <Content Include="Images\Brands\mini.png" />
+    <Content Include="Images\Brands\mitsubishi.png" />
+    <Content Include="Images\Brands\nissan.png" />
+    <Content Include="Images\Brands\opel.png" />
+    <Content Include="Images\Brands\peugeot.png" />
+    <Content Include="Images\Brands\porsche.png" />
+    <Content Include="Images\Map\mappin.png" />
+    <Content Include="Images\Vehicle\plugin_hybrid.png" />
+    <Content Include="Images\Reminders\fatal.png" />
+    <Content Include="Images\Reminders\ok.png" />
+    <Content Include="Images\Reminders\warning.png" />
+    <Content Include="Images\Brands\renault.png" />
+    <Content Include="Images\Brands\seat.png" />
+    <Content Include="Images\Brands\skoda.png" />
+    <Content Include="Images\Brands\subaru.png" />
+    <Content Include="Images\Brands\suzuki.png" />
+    <Content Include="Images\Brands\toyota.png" />
+    <Content Include="Images\Brands\triumph.png" />
+    <Content Include="Images\Brands\volkswagen.png" />
+    <Content Include="Images\Brands\volvo.png" />
+    <Content Include="Images\Brands\yamaha.png" />
+    <None Include="Package.StoreAssociation.xml" />
+    <Content Include="Properties\Default.rd.xml" />
+    <Content Include="Assets\LockScreenLogo.scale-200.png" />
+    <Content Include="Assets\SplashScreen.scale-200.png" />
+    <Content Include="Assets\Square150x150Logo.scale-200.png" />
+    <Content Include="Assets\Square44x44Logo.scale-200.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Page Include="Pages\AboutPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\EditEventPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\EventsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\MapPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\NewEventPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ActionUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ChargingUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\EditableEventUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\EventUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\StatisticsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\EmptyUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ExpenseUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\FuelUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\InspectionUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\InsuranceUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\VehiclesPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\RemindersPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ReminderUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\RepairUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ServiceUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\TaxUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\TollFeeUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\VehicleUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\WashUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="AsyncAwaitBestPractices.MVVM">
+      <Version>5.1.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
+      <Version>6.2.12</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications">
+      <Version>7.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">
+      <Version>7.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.UI.Xaml">
+      <Version>2.5.0</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>13.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="Telerik.UI.for.UniversalWindowsPlatform">
+      <Version>1.0.2.5</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup />
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
+    <VisualStudioVersion>14.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,47 @@
+﻿<Page
+    x:Class="VehicleTrakker.Pages.MapPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VehicleTrakker.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:maps="using:Windows.UI.Xaml.Controls.Maps"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="2">
+            <TextBlock Text="Vehicle: " Margin="10,5,10,0" Style="{StaticResource AttributeLabelTextStyle}"/>
+            <ComboBox ItemsSource="{Binding Vehicles}" SelectedItem="{Binding SelectedVehicle, Mode=TwoWay}" Margin="10,0,10,0" ToolTipService.ToolTip="Select the current vehicle" BorderBrush="Transparent">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{Binding Brand, Converter={StaticResource explicitBrandNameToImageConverter}, Mode=TwoWay}" Width="25" Height="25"/>
+                            <TextBlock Text="{Binding Path=Name}" Margin="10,0,0,0"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </StackPanel>
+        <maps:MapControl x:Name="map" Grid.Row="1" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MinHeight="500"
+                                         MapServiceToken="aijFoQj5HExwyDNoKKLC~WV6FPJdjKuJ8Z5naTYswMQ~ArRzTeyPBwkfddflCd5tJobtcsat41p5PKIn66uQHkLw0JC9x53ibrUvDf5mZrrr"
+                                         MapProjection="{Binding MapProjection, Mode=TwoWay}"
+                                         Style="{Binding MapStyle, Mode=TwoWay}"
+                                         ZoomLevel="15"
+                                         DesiredPitch="45"                                         
+                                         MapRightTapped="HandleMapRightTapped">
+            <!--<FlyoutBase.AttachedFlyout>
+                <MenuFlyout x:Name="MapFlyout">
+                    <MenuFlyoutItem Text="Clear position" Command="{Binding ClearPositionCommand}"/>
+                    <MenuFlyoutItem Text="New position"/>
+                </MenuFlyout>
+            </FlyoutBase.AttachedFlyout>-->
+        </maps:MapControl>
+    </Grid>
+</Page>

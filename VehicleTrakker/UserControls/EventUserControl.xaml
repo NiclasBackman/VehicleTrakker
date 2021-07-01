@@ -1,0 +1,520 @@
+﻿<UserControl
+    x:Class="NavigationTest.EventUserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:NavigationTest"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:telerikPrimitives="using:Telerik.UI.Xaml.Controls.Primitives"
+    xmlns:telerikPrimitivesMenu="using:Telerik.UI.Xaml.Controls.Primitives.Menu" xmlns:viewmodels="using:NavigationTest.ViewModels"
+    xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" xmlns:datadefinitions="using:VehicleTrakker.DataDefinitions" xmlns:converters="using:VehicleTrakker.Converters" xmlns:maps="using:Windows.UI.Xaml.Controls.Maps"
+    mc:Ignorable="d"
+    d:DesignHeight="700"
+    d:DesignWidth="400"
+    Visibility="{Binding CurrentState, Converter={StaticResource eventStateToVisibilityConverter}, Mode=TwoWay}"
+    x:Name="eventUserControl">
+    <UserControl.Resources>
+        <local:VehiclePersistenceStateToColorBrushConverter x:Key="vehiclePersistenceStateToColorBrushConverter"/>
+        <local:VehiclePersistenceStateToUpperBorderColorConverter x:Key="vehiclePersistenceStateToUpperBorderColorConverter"/>
+        <converters:BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter"/>
+        <converters:InvertedBooleanToVisibilityConverter x:Key="invertedBooleanToVisibilityConverter"/>
+        <converters:CostRelatedEventToVisibilityConverter x:Key="costRelatedEventToVisibilityConverter"/>
+        <converters:VehicleEngineTypeHybridToVisibilityVisibleConverter x:Key="vehicleEngineTypeHybridToVisibilityVisibleConverter"/>
+        <converters:VehicleEngineTypeIceToVisibilityVisibleConverter x:Key="vehicleEngineTypeIceToVisibilityVisibleConverter"/>
+        <converters:VehicleEngineTypePureEvToVisibilityVisibleConverter x:Key="vehicleEngineTypePureEvToVisibilityVisibleConverter"/>
+        <viewmodels:CustomItemCommand x:Key="customCommand"/>
+    </UserControl.Resources>
+    <Border Margin="10" BorderThickness="1" BorderBrush="{Binding CurrentState, Converter={StaticResource vehiclePersistenceStateToColorBrushConverter}}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <!--<Button Grid.Row="0" FontFamily="Segoe MDL2 Assets" Content="&#xE710;" FontSize="30" Command="{Binding AddEventCommand}" Background="Transparent" Width="50" Margin="10">
+            <Button.Flyout>
+                <Flyout>
+                    <TextBlock Text="This is a flyout!"/>
+                </Flyout>
+            </Button.Flyout>
+        </Button>-->
+            <Grid Grid.Row="1">
+                <Grid Grid.Row="0" Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Rectangle x:Name="DropShadow"  Margin="0,0,0,10" Height="10" Grid.ColumnSpan="2">
+                        <Rectangle.Fill>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Offset="0" Color="{Binding CurrentState, Converter={StaticResource vehiclePersistenceStateToUpperBorderColorConverter}}" />
+                                <GradientStop Offset="1" Color="#00000000" />
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <StackPanel Grid.Row="1" Orientation="Vertical">
+                        <TextBlock  Text="EventType: " Style="{StaticResource AttributeLabelTextStyle}"/>
+                        <Image Source="{Binding SelectedEventType.ImageSource}" Width="30" Height="30" Margin="10" HorizontalAlignment="Left"
+                               Visibility="{Binding OrganizedEventPanelIsVisible, Converter={StaticResource booleanToVisibilityConverter}, Mode=TwoWay}"/>
+                    </StackPanel>
+                    <ComboBox Grid.Row="1" Grid.Column="1" Margin="10,0,0,0" Background="Transparent" Width="150" ItemsSource="{Binding EventTypes}" SelectedItem="{Binding SelectedEventType, Mode=TwoWay}" Visibility="{Binding OrganizedEventPanelIsVisible, Converter={StaticResource invertedBooleanToVisibilityConverter}, Mode=TwoWay}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <controls:WrapPanel Height="20">
+                                    <Image Width="20" Height="20" Stretch="Fill" Source="{Binding ImageSource}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,15,0"/>
+                                    <TextBlock Text="{Binding Type}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15"/>
+                                </controls:WrapPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Date:" Margin="0,10,10,10" Style="{StaticResource AttributeLabelTextStyle}"/>
+                    <CalendarDatePicker Grid.Row="2" Grid.Column="1" Margin="10" Date="{Binding EventDate, Mode=TwoWay}"/>
+                    <TextBlock Grid.Row="3" Grid.Column="0" Margin="0,10,10,10" Style="{StaticResource AttributeLabelTextStyle}">
+                        <Run Text="{Binding OdometerUnit}"/><Run Text=":"/>
+                    </TextBlock>
+                    <muxc:NumberBox Grid.Row="3" Grid.Column="1" Value="{Binding Odometer, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,10,40,10" PlaceholderText="Enter odometer value" Style="{StaticResource StyledNumberBox}"/>
+                    <TextBlock Grid.Row="4" Grid.Column="0" Margin="0,10,10,10" Style="{StaticResource AttributeLabelTextStyle}" Visibility="{Binding SelectedEventType.Type, Converter={StaticResource costRelatedEventToVisibilityConverter}}">
+                        <Run Text="{Binding CostUnit}"/><Run Text=":"/>
+                    </TextBlock>
+                    <muxc:NumberBox x:Name="costNumberBox" Grid.Row="4" Grid.Column="1" Value="{Binding Cost, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,10,40,10" PlaceholderText="Enter cost value" Style="{StaticResource StyledNumberBox}" Visibility="{Binding SelectedEventType.Type, Converter={StaticResource costRelatedEventToVisibilityConverter}}"/>
+                    <UserControl Grid.Row="5" Grid.Column="0"  Grid.ColumnSpan="2" Content="{Binding CurrentUserControl}" Margin="0"/>
+                    <TextBlock Grid.Row="6" Grid.Column="0" Text="Note:" Margin="0,10,10,10" Style="{StaticResource AttributeLabelTextStyle}"/>
+                    <TextBox Grid.Row="6" Grid.Column="1" TextWrapping="Wrap" AcceptsReturn="True" ScrollViewer.VerticalScrollBarVisibility="Auto" MaxHeight="60" Text="{Binding Note, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="14,10,6,10"/>
+                    <controls:Expander HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsExpanded="False" Grid.Row="7" Header="Location" Grid.ColumnSpan="2" Background="Transparent" FontFamily="Segoe UI" FontSize="16" Foreground="#FF4b4b4b" ToolTipService.ToolTip="Double click/tap in map to define position">
+                        <maps:MapControl x:Name="map" Margin="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MinHeight="400"
+                                         MapServiceToken="aijFoQj5HExwyDNoKKLC~WV6FPJdjKuJ8Z5naTYswMQ~ArRzTeyPBwkfddflCd5tJobtcsat41p5PKIn66uQHkLw0JC9x53ibrUvDf5mZrrr"
+                                         MapProjection="{Binding MapProjection, Mode=TwoWay}"
+                                         Style="{Binding MapStyle, Mode=TwoWay}"
+                                         ZoomLevel="15"
+                                         DesiredPitch="45"
+                                         MapDoubleTapped="HandleMapDoubleTapped"
+                                         MapRightTapped="HandleMapRightTapped">
+                            <FlyoutBase.AttachedFlyout>
+                                <MenuFlyout x:Name="MapFlyout">
+                                    <MenuFlyoutItem Text="Clear position" Command="{Binding ClearPositionCommand}"/>
+                                    <MenuFlyoutItem Text="New position" Click="HandleNewPositionHereClicked"/>
+                                </MenuFlyout>
+                            </FlyoutBase.AttachedFlyout>
+                        </maps:MapControl>
+                    </controls:Expander>
+                    <!--<TextBlock Grid.Row="7" Grid.Column="0" Text="Location:" Margin="0,10,10,10" Style="{StaticResource AttributeLabelTextStyle}"/>-->
+                    <!--<maps:MapControl x:Name="map" Grid.Row="7" Grid.Column="1" Margin="10" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MinHeight="500"
+                                         MapServiceToken="aijFoQj5HExwyDNoKKLC~WV6FPJdjKuJ8Z5naTYswMQ~ArRzTeyPBwkfddflCd5tJobtcsat41p5PKIn66uQHkLw0JC9x53ibrUvDf5mZrrr"
+                                         MapProjection="{Binding MapProjection, Mode=TwoWay}"
+                                         Style="{Binding MapStyle, Mode=TwoWay}"
+                                         ZoomLevel="15"
+                                         DesiredPitch="45"
+                                         MapDoubleTapped="HandleMapDoubleTapped"
+                                         MapRightTapped="HandleMapRightTapped">
+                        <FlyoutBase.AttachedFlyout>
+                            <MenuFlyout x:Name="MapFlyout">
+                                <MenuFlyoutItem Text="Clear position" Command="{Binding ClearPositionCommand}"/>
+                                <MenuFlyoutItem Text="New position" Click="HandleNewPositionHereClicked"/>
+                            </MenuFlyout>
+                        </FlyoutBase.AttachedFlyout>
+                    </maps:MapControl>-->
+
+                    <Button Grid.Row="8" Grid.Column="0" FontFamily="Segoe MDL2 Assets" Content="&#xE74E;" FontSize="30" Command="{Binding SaveEventCommand}" Background="Transparent" Margin="0,10,0,10" HorizontalAlignment="Left" Style="{StaticResource DisabledButtonTransparentBackgroundStyle}" ToolTipService.ToolTip="Click to save event"/>
+                    <Button Grid.Row="8" Grid.Column="1" FontFamily="Segoe MDL2 Assets" Content="&#xE74D;" FontSize="30" Command="{Binding DeleteEventCommand}" Background="Transparent" Margin="0,10,10,10" HorizontalAlignment="Right" ToolTipService.ToolTip="Click to delete the event"/>
+                    <telerikPrimitives:RadRadialMenu Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" ShowToolTip="True" VerticalAlignment="Stretch" Margin="0,0,0,0" IsOpen="True" 
+                                                     Visibility="{Binding OrganizedEventPanelIsVisible, Converter={StaticResource vehicleEngineTypeHybridToVisibilityVisibleConverter}}">
+                        <telerikPrimitives:RadialMenuItem Header="Maintenance">
+                            <telerikPrimitives:RadialMenuItem.ToolTipContent>
+                                <TextBlock Text="Maintenance" Style="{StaticResource AttributeLabelTextStyle}"/>
+                            </telerikPrimitives:RadialMenuItem.ToolTipContent>
+                            <telerikPrimitives:RadialMenuItem Header="Service" Command="{StaticResource customCommand}">
+                                <telerikPrimitives:RadialMenuItem.CommandParameter>
+                                    <datadefinitions:EventType>Service</datadefinitions:EventType>
+                                </telerikPrimitives:RadialMenuItem.CommandParameter>
+                                <telerikPrimitives:RadialMenuItem.IconContent>
+                                    <Image Source="/Images/Events/service.png" Width="30" Height="30"/>
+                                </telerikPrimitives:RadialMenuItem.IconContent>
+                                <telerikPrimitives:RadialMenuItem.ToolTipContent>
+                                    <TextBlock Text="Scheduled service" Style="{StaticResource AttributeLabelTextStyle}"/>
+                                </telerikPrimitives:RadialMenuItem.ToolTipContent>
+                            </telerikPrimitives:RadialMenuItem>
+                            <telerikPrimitives:RadialMenuItem Header="Repair" Command="{StaticResource customCommand}">
+                                <telerikPrimitives:RadialMenuItem.CommandParameter>
+                                    <datadefinitions:EventType>Repair</datadefinitions:EventType>
+                                </telerikPrimitives:RadialMenuItem.CommandParameter>
+                                <telerikPrimitives:RadialMenuItem.IconContent>
+                                    <Image Source="/Images/Events/repair.png" Width="30" Height="30"/>
+                                </telerikPrimitives:RadialMenuItem.IconContent>
+                                <telerikPrimitives:RadialMenuItem.ToolTipContent>
+                                    <TextBlock Text="Repair" Style="{StaticResource AttributeLabelTextStyle}"/>
+                                </telerikPrimitives:RadialMenuItem.ToolTipContent>
+                            </telerikPrimitives:RadialMenuItem>
+                        </telerikPrimitives:RadialMenuItem>
+
+                        <telerikPrimitives:RadialMenuItem Header="Recurrent cost">
+                            <telerikPrimitives:RadialMenuItem.ToolTipContent>
+                                <TextBlock Text="Fees" Style="{StaticResource AttributeLabelTextStyle}"/>
+                            </telerikPrimitives:RadialMenuItem.ToolTipContent>
+                            <telerikPrimitives:RadialMenuItem Header="Insurance" Command="{StaticResource customCommand}">
+                                <telerikPrimitives:RadialMenuItem.CommandParameter>
+                                    <datadefinitions:EventType>Insurance</datadefinitions:EventType>
+                                </telerikPrimitives:RadialMenuItem.CommandParameter>
+                                <telerikPrimitives:RadialMenuItem.IconContent>
+                                    <Image Source="/Images/Events/insurance.png" Width="30" Height="30"/>
+                                </telerikPrimitives:RadialMenuItem.IconContent>
+                                <telerikPrimitives:RadialMenuItem.ToolTipContent>
+                                    <TextBlock Text="Insurance" Style="{StaticResource AttributeLabelTextStyle}"/>
+                                </telerikPrimitives:RadialMenuItem.ToolTipContent>
+                            </telerikPrimitives:RadialMenuItem>
+                            <telerikPrimitives:RadialMenuItem Header="Tax" Command="{StaticResource customCommand}">
+                                <telerikPrimitives:RadialMenuItem.CommandParameter>
+                                    <datadefinitions:EventType>Tax</datadefinitions:EventType>
+                                </telerikPrimitives:RadialMenuItem.CommandParameter>
+                                <telerikPrimitives:RadialMenuItem.IconContent>
+                                    <Image Source="/Images/Events/tax.png" Width="30" Height="30"/>
+                                </telerikPrimitives:RadialMenuItem.IconContent>
+                                <telerikPrimitives:RadialMenuItem.ToolTipContent>
+                                    <TextBlock Text="Tax" Style="{StaticResource AttributeLabelTextStyle}"/>
+                                </telerikPrimitives:RadialMenuItem.ToolTipContent>
+                            </telerikPrimitives:RadialMenuItem>
+                            <telerikPrimitives:RadialMenuItem Header="Inspection" Command="{StaticResource customCommand}">
+                                <telerikPrimitives:RadialMenuItem.CommandParameter>
+                                    <datadefinitions:EventType>Inspection</datadefinitions:EventType>
+                                </telerikPrimitives:RadialMenuItem.CommandParameter>
+                                <telerikPrimitives:RadialMenuItem.IconContent>
+                                    <Image Source="/Images/Events/vehicle_inspection.png" Width="30" Height="30"/>
+                                </telerikPrimitives:RadialMenuItem.IconContent>
+                                <telerikPrimitives:RadialMenuItem.ToolTipContent>
+                                    <TextBlock Text="Annual inspection" Style="{StaticResource AttributeLabelTextStyle}"/>
+                                </telerikPrimitives:RadialMenuItem.ToolTipContent>
+                            </telerikPrimitives:RadialMenuItem>
+                        </telerikPrimitives:RadialMenuItem>
+
+                        <telerikPrimitives:RadialMenuItem Header="Fuel" Command="{StaticResource customCommand}">
+                            <telerikPrimitives:RadialMenuItem.CommandParameter>
+                                <datadefinitions:EventType>Fuel</datadefinitions:EventType>
+                            </telerikPrimitives:RadialMenuItem.CommandParameter>
+                            <telerikPrimitives:RadialMenuItem.IconContent>
+                                <Image Source="/Images/Events/gas_station.png" Width="30" Height="30"/>
+                            </telerikPrimitives:RadialMenuItem.IconContent>
+                            <telerikPrimitives:RadialMenuItem.ToolTipContent>
+                                <TextBlock Text="Re-Fueling" Style="{StaticResource AttributeLabelTextStyle}"/>
+                            </telerikPrimitives:RadialMenuItem.ToolTipContent>
+                        </telerikPrimitives:RadialMenuItem>
+                        <telerikPrimitives:RadialMenuItem Header="Charging" Command="{StaticResource customCommand}">
+                            <telerikPrimitives:RadialMenuItem.CommandParameter>
+                                <datadefinitions:EventType>Charging</datadefinitions:EventType>
+                            </telerikPrimitives:RadialMenuItem.CommandParameter>
+                            <telerikPrimitives:RadialMenuItem.IconContent>
+                                <Image Source="/Images/Events/charging_station.png" Width="30" Height="30"/>
+                            </telerikPrimitives:RadialMenuItem.IconContent>
+                            <telerikPrimitives:RadialMenuItem.ToolTipContent>
+                                <TextBlock Text="Re-Charging" Style="{StaticResource AttributeLabelTextStyle}"/>
+                            </telerikPrimitives:RadialMenuItem.ToolTipContent>
+                        </telerikPrimitives:RadialMenuItem>
+                        <telerikPrimitives:RadialMenuItem Header="Expense" Command="{StaticResource customCommand}">
+                            <telerikPrimitives:RadialMenuItem.CommandParameter>
+                                <datadefinitions:EventType>Expense</datadefinitions:EventType>
+                            </telerikPrimitives:RadialMenuItem.CommandParameter>
+                            <telerikPrimitives:RadialMenuItem.IconContent>
+                                <Image Source="/Images/Events/expenses.png" Width="30" Height="30"/>
+                            </telerikPrimitives:RadialMenuItem.IconContent>
+                            <telerikPrimitives:RadialMenuItem.ToolTipContent>
+                                <TextBlock Text="General expenses" Style="{StaticResource AttributeLabelTextStyle}"/>
+                            </telerikPrimitives:RadialMenuItem.ToolTipContent>
+                        </telerikPrimitives:RadialMenuItem>
+                        <telerikPrimitives:RadialMenuItem Header="TollFee" Command="{StaticResource customCommand}">
+                            <telerikPrimitives:RadialMenuItem.CommandParameter>
+                                <datadefinitions:EventType>TollFee</datadefinitions:EventType>
+                            </telerikPrimitives:RadialMenuItem.CommandParameter>
+                            <telerikPrimitives:RadialMenuItem.IconContent>
+                                <Image Source="/Images/Events/toll_fee.png" Width="30" Height="30"/>
+                            </telerikPrimitives:RadialMenuItem.IconContent>
+                            <telerikPrimitives:RadialMenuItem.ToolTipContent>
+                                <TextBlock Text="Toll Fee" Style="{StaticResource AttributeLabelTextStyle}"/>
+                            </telerikPrimitives:RadialMenuItem.ToolTipContent>
+                        </telerikPrimitives:RadialMenuItem>
+                        <telerikPrimitives:RadialMenuItem Header="Wash" Command="{StaticResource customCommand}">
+                            <telerikPrimitives:RadialMenuItem.CommandParameter>
+                                <datadefinitions:EventType>Wash</datadefinitions:EventType>
+                            </telerikPrimitives:RadialMenuItem.CommandParameter>
+                            <telerikPrimitives:RadialMenuItem.IconContent>
+                                <Image Source="/Images/Events/wash.png" Width="30" Height="30"/>
+                            </telerikPrimitives:RadialMenuItem.IconContent>
+                            <telerikPrimitives:RadialMenuItem.ToolTipContent>
+                                <TextBlock Text="Vehicle washing" Style="{StaticResource AttributeLabelTextStyle}"/>
+                            </telerikPrimitives:RadialMenuItem.ToolTipContent>
+                        </telerikPrimitives:RadialMenuItem>
+                        <telerikPrimitives:RadialMenuItem Header="Action" Command="{StaticResource customCommand}">
+                            <telerikPrimitives:RadialMenuItem.CommandParameter>
+                                <datadefinitions:EventType>Action</datadefinitions:EventType>
+                            </telerikPrimitives:RadialMenuItem.CommandParameter>
+                            <telerikPrimitives:RadialMenuItem.IconContent>
+                                <Image Source="/Images/Events/action.png" Width="30" Height="30"/>
+                            </telerikPrimitives:RadialMenuItem.IconContent>
+                            <telerikPrimitives:RadialMenuItem.ToolTipContent>
+                                <TextBlock Text="Action" Style="{StaticResource AttributeLabelTextStyle}"/>
+                            </telerikPrimitives:RadialMenuItem.ToolTipContent>
+                        </telerikPrimitives:RadialMenuItem>
+                    </telerikPrimitives:RadRadialMenu>
+                    <telerikPrimitives:RadRadialMenu Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" ShowToolTip="True" VerticalAlignment="Stretch" Margin="0,0,0,0" IsOpen="True" 
+                                                     Visibility="{Binding OrganizedEventPanelIsVisible, Converter={StaticResource vehicleEngineTypeIceToVisibilityVisibleConverter}}">
+                        <telerikPrimitives:RadialMenuItem Header="Maintenance">
+                            <telerikPrimitives:RadialMenuItem.ToolTipContent>
+                                <TextBlock Text="Maintenance" Style="{StaticResource AttributeLabelTextStyle}"/>
+                            </telerikPrimitives:RadialMenuItem.ToolTipContent>
+                            <telerikPrimitives:RadialMenuItem Header="Service" Command="{StaticResource customCommand}">
+                                <telerikPrimitives:RadialMenuItem.CommandParameter>
+                                    <datadefinitions:EventType>Service</datadefinitions:EventType>
+                                </telerikPrimitives:RadialMenuItem.CommandParameter>
+                                <telerikPrimitives:RadialMenuItem.IconContent>
+                                    <Image Source="/Images/Events/service.png" Width="30" Height="30"/>
+                                </telerikPrimitives:RadialMenuItem.IconContent>
+                                <telerikPrimitives:RadialMenuItem.ToolTipContent>
+                                    <TextBlock Text="Scheduled service" Style="{StaticResource AttributeLabelTextStyle}"/>
+                                </telerikPrimitives:RadialMenuItem.ToolTipContent>
+                            </telerikPrimitives:RadialMenuItem>
+                            <telerikPrimitives:RadialMenuItem Header="Repair" Command="{StaticResource customCommand}">
+                                <telerikPrimitives:RadialMenuItem.CommandParameter>
+                                    <datadefinitions:EventType>Repair</datadefinitions:EventType>
+                                </telerikPrimitives:RadialMenuItem.CommandParameter>
+                                <telerikPrimitives:RadialMenuItem.IconContent>
+                                    <Image Source="/Images/Events/repair.png" Width="30" Height="30"/>
+                                </telerikPrimitives:RadialMenuItem.IconContent>
+                                <telerikPrimitives:RadialMenuItem.ToolTipContent>
+                                    <TextBlock Text="Repair" Style="{StaticResource AttributeLabelTextStyle}"/>
+                                </telerikPrimitives:RadialMenuItem.ToolTipContent>
+                            </telerikPrimitives:RadialMenuItem>
+                        </telerikPrimitives:RadialMenuItem>
+
+                        <telerikPrimitives:RadialMenuItem Header="Recurrent cost">
+                            <telerikPrimitives:RadialMenuItem.ToolTipContent>
+                                <TextBlock Text="Fees" Style="{StaticResource AttributeLabelTextStyle}"/>
+                            </telerikPrimitives:RadialMenuItem.ToolTipContent>
+                            <telerikPrimitives:RadialMenuItem Header="Insurance" Command="{StaticResource customCommand}">
+                                <telerikPrimitives:RadialMenuItem.CommandParameter>
+                                    <datadefinitions:EventType>Insurance</datadefinitions:EventType>
+                                </telerikPrimitives:RadialMenuItem.CommandParameter>
+                                <telerikPrimitives:RadialMenuItem.IconContent>
+                                    <Image Source="/Images/Events/insurance.png" Width="30" Height="30"/>
+                                </telerikPrimitives:RadialMenuItem.IconContent>
+                                <telerikPrimitives:RadialMenuItem.ToolTipContent>
+                                    <TextBlock Text="Insurance" Style="{StaticResource AttributeLabelTextStyle}"/>
+                                </telerikPrimitives:RadialMenuItem.ToolTipContent>
+                            </telerikPrimitives:RadialMenuItem>
+                            <telerikPrimitives:RadialMenuItem Header="Tax" Command="{StaticResource customCommand}">
+                                <telerikPrimitives:RadialMenuItem.CommandParameter>
+                                    <datadefinitions:EventType>Tax</datadefinitions:EventType>
+                                </telerikPrimitives:RadialMenuItem.CommandParameter>
+                                <telerikPrimitives:RadialMenuItem.IconContent>
+                                    <Image Source="/Images/Events/tax.png" Width="30" Height="30"/>
+                                </telerikPrimitives:RadialMenuItem.IconContent>
+                                <telerikPrimitives:RadialMenuItem.ToolTipContent>
+                                    <TextBlock Text="Tax" Style="{StaticResource AttributeLabelTextStyle}"/>
+                                </telerikPrimitives:RadialMenuItem.ToolTipContent>
+                            </telerikPrimitives:RadialMenuItem>
+                            <telerikPrimitives:RadialMenuItem Header="Inspection" Command="{StaticResource customCommand}">
+                                <telerikPrimitives:RadialMenuItem.CommandParameter>
+                                    <datadefinitions:EventType>Inspection</datadefinitions:EventType>
+                                </telerikPrimitives:RadialMenuItem.CommandParameter>
+                                <telerikPrimitives:RadialMenuItem.IconContent>
+                                    <Image Source="/Images/Events/vehicle_inspection.png" Width="30" Height="30"/>
+                                </telerikPrimitives:RadialMenuItem.IconContent>
+                                <telerikPrimitives:RadialMenuItem.ToolTipContent>
+                                    <TextBlock Text="Annual inspection" Style="{StaticResource AttributeLabelTextStyle}"/>
+                                </telerikPrimitives:RadialMenuItem.ToolTipContent>
+                            </telerikPrimitives:RadialMenuItem>
+                        </telerikPrimitives:RadialMenuItem>
+
+                        <telerikPrimitives:RadialMenuItem Header="Fuel" Command="{StaticResource customCommand}">
+                            <telerikPrimitives:RadialMenuItem.CommandParameter>
+                                <datadefinitions:EventType>Fuel</datadefinitions:EventType>
+                            </telerikPrimitives:RadialMenuItem.CommandParameter>
+                            <telerikPrimitives:RadialMenuItem.IconContent>
+                                <Image Source="/Images/Events/gas_station.png" Width="30" Height="30"/>
+                            </telerikPrimitives:RadialMenuItem.IconContent>
+                            <telerikPrimitives:RadialMenuItem.ToolTipContent>
+                                <TextBlock Text="Re-Fueling" Style="{StaticResource AttributeLabelTextStyle}"/>
+                            </telerikPrimitives:RadialMenuItem.ToolTipContent>
+                        </telerikPrimitives:RadialMenuItem>
+                        <telerikPrimitives:RadialMenuItem Header="Expense" Command="{StaticResource customCommand}">
+                            <telerikPrimitives:RadialMenuItem.CommandParameter>
+                                <datadefinitions:EventType>Expense</datadefinitions:EventType>
+                            </telerikPrimitives:RadialMenuItem.CommandParameter>
+                            <telerikPrimitives:RadialMenuItem.IconContent>
+                                <Image Source="/Images/Events/expenses.png" Width="30" Height="30"/>
+                            </telerikPrimitives:RadialMenuItem.IconContent>
+                            <telerikPrimitives:RadialMenuItem.ToolTipContent>
+                                <TextBlock Text="General expenses" Style="{StaticResource AttributeLabelTextStyle}"/>
+                            </telerikPrimitives:RadialMenuItem.ToolTipContent>
+                        </telerikPrimitives:RadialMenuItem>
+                        <telerikPrimitives:RadialMenuItem Header="TollFee" Command="{StaticResource customCommand}">
+                            <telerikPrimitives:RadialMenuItem.CommandParameter>
+                                <datadefinitions:EventType>TollFee</datadefinitions:EventType>
+                            </telerikPrimitives:RadialMenuItem.CommandParameter>
+                            <telerikPrimitives:RadialMenuItem.IconContent>
+                                <Image Source="/Images/Events/toll_fee.png" Width="30" Height="30"/>
+                            </telerikPrimitives:RadialMenuItem.IconContent>
+                            <telerikPrimitives:RadialMenuItem.ToolTipContent>
+                                <TextBlock Text="Toll Fee" Style="{StaticResource AttributeLabelTextStyle}"/>
+                            </telerikPrimitives:RadialMenuItem.ToolTipContent>
+                        </telerikPrimitives:RadialMenuItem>
+                        <telerikPrimitives:RadialMenuItem Header="Wash" Command="{StaticResource customCommand}">
+                            <telerikPrimitives:RadialMenuItem.CommandParameter>
+                                <datadefinitions:EventType>Wash</datadefinitions:EventType>
+                            </telerikPrimitives:RadialMenuItem.CommandParameter>
+                            <telerikPrimitives:RadialMenuItem.IconContent>
+                                <Image Source="/Images/Events/wash.png" Width="30" Height="30"/>
+                            </telerikPrimitives:RadialMenuItem.IconContent>
+                            <telerikPrimitives:RadialMenuItem.ToolTipContent>
+                                <TextBlock Text="Vehicle washing" Style="{StaticResource AttributeLabelTextStyle}"/>
+                            </telerikPrimitives:RadialMenuItem.ToolTipContent>
+                        </telerikPrimitives:RadialMenuItem>
+                        <telerikPrimitives:RadialMenuItem Header="Action" Command="{StaticResource customCommand}">
+                            <telerikPrimitives:RadialMenuItem.CommandParameter>
+                                <datadefinitions:EventType>Action</datadefinitions:EventType>
+                            </telerikPrimitives:RadialMenuItem.CommandParameter>
+                            <telerikPrimitives:RadialMenuItem.IconContent>
+                                <Image Source="/Images/Events/action.png" Width="30" Height="30"/>
+                            </telerikPrimitives:RadialMenuItem.IconContent>
+                            <telerikPrimitives:RadialMenuItem.ToolTipContent>
+                                <TextBlock Text="Action" Style="{StaticResource AttributeLabelTextStyle}"/>
+                            </telerikPrimitives:RadialMenuItem.ToolTipContent>
+                        </telerikPrimitives:RadialMenuItem>
+                    </telerikPrimitives:RadRadialMenu>
+                    <telerikPrimitives:RadRadialMenu Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" ShowToolTip="True" VerticalAlignment="Stretch" Margin="0,0,0,0" IsOpen="True" 
+                                                     Visibility="{Binding OrganizedEventPanelIsVisible, Converter={StaticResource vehicleEngineTypePureEvToVisibilityVisibleConverter}}">
+                        <telerikPrimitives:RadialMenuItem Header="Maintenance">
+                            <telerikPrimitives:RadialMenuItem.ToolTipContent>
+                                <TextBlock Text="Maintenance" Style="{StaticResource AttributeLabelTextStyle}"/>
+                            </telerikPrimitives:RadialMenuItem.ToolTipContent>
+                            <telerikPrimitives:RadialMenuItem Header="Service" Command="{StaticResource customCommand}">
+                                <telerikPrimitives:RadialMenuItem.CommandParameter>
+                                    <datadefinitions:EventType>Service</datadefinitions:EventType>
+                                </telerikPrimitives:RadialMenuItem.CommandParameter>
+                                <telerikPrimitives:RadialMenuItem.IconContent>
+                                    <Image Source="/Images/Events/service.png" Width="30" Height="30"/>
+                                </telerikPrimitives:RadialMenuItem.IconContent>
+                                <telerikPrimitives:RadialMenuItem.ToolTipContent>
+                                    <TextBlock Text="Scheduled service" Style="{StaticResource AttributeLabelTextStyle}"/>
+                                </telerikPrimitives:RadialMenuItem.ToolTipContent>
+                            </telerikPrimitives:RadialMenuItem>
+                            <telerikPrimitives:RadialMenuItem Header="Repair" Command="{StaticResource customCommand}">
+                                <telerikPrimitives:RadialMenuItem.CommandParameter>
+                                    <datadefinitions:EventType>Repair</datadefinitions:EventType>
+                                </telerikPrimitives:RadialMenuItem.CommandParameter>
+                                <telerikPrimitives:RadialMenuItem.IconContent>
+                                    <Image Source="/Images/Events/repair.png" Width="30" Height="30"/>
+                                </telerikPrimitives:RadialMenuItem.IconContent>
+                                <telerikPrimitives:RadialMenuItem.ToolTipContent>
+                                    <TextBlock Text="Repair" Style="{StaticResource AttributeLabelTextStyle}"/>
+                                </telerikPrimitives:RadialMenuItem.ToolTipContent>
+                            </telerikPrimitives:RadialMenuItem>
+                        </telerikPrimitives:RadialMenuItem>
+
+                        <telerikPrimitives:RadialMenuItem Header="Recurrent cost">
+                            <telerikPrimitives:RadialMenuItem.ToolTipContent>
+                                <TextBlock Text="Fees" Style="{StaticResource AttributeLabelTextStyle}"/>
+                            </telerikPrimitives:RadialMenuItem.ToolTipContent>
+                            <telerikPrimitives:RadialMenuItem Header="Insurance" Command="{StaticResource customCommand}">
+                                <telerikPrimitives:RadialMenuItem.CommandParameter>
+                                    <datadefinitions:EventType>Insurance</datadefinitions:EventType>
+                                </telerikPrimitives:RadialMenuItem.CommandParameter>
+                                <telerikPrimitives:RadialMenuItem.IconContent>
+                                    <Image Source="/Images/Events/insurance.png" Width="30" Height="30"/>
+                                </telerikPrimitives:RadialMenuItem.IconContent>
+                                <telerikPrimitives:RadialMenuItem.ToolTipContent>
+                                    <TextBlock Text="Insurance" Style="{StaticResource AttributeLabelTextStyle}"/>
+                                </telerikPrimitives:RadialMenuItem.ToolTipContent>
+                            </telerikPrimitives:RadialMenuItem>
+                            <telerikPrimitives:RadialMenuItem Header="Tax" Command="{StaticResource customCommand}">
+                                <telerikPrimitives:RadialMenuItem.CommandParameter>
+                                    <datadefinitions:EventType>Tax</datadefinitions:EventType>
+                                </telerikPrimitives:RadialMenuItem.CommandParameter>
+                                <telerikPrimitives:RadialMenuItem.IconContent>
+                                    <Image Source="/Images/Events/tax.png" Width="30" Height="30"/>
+                                </telerikPrimitives:RadialMenuItem.IconContent>
+                                <telerikPrimitives:RadialMenuItem.ToolTipContent>
+                                    <TextBlock Text="Tax" Style="{StaticResource AttributeLabelTextStyle}"/>
+                                </telerikPrimitives:RadialMenuItem.ToolTipContent>
+                            </telerikPrimitives:RadialMenuItem>
+                            <telerikPrimitives:RadialMenuItem Header="Inspection" Command="{StaticResource customCommand}">
+                                <telerikPrimitives:RadialMenuItem.CommandParameter>
+                                    <datadefinitions:EventType>Inspection</datadefinitions:EventType>
+                                </telerikPrimitives:RadialMenuItem.CommandParameter>
+                                <telerikPrimitives:RadialMenuItem.IconContent>
+                                    <Image Source="/Images/Events/vehicle_inspection.png" Width="30" Height="30"/>
+                                </telerikPrimitives:RadialMenuItem.IconContent>
+                                <telerikPrimitives:RadialMenuItem.ToolTipContent>
+                                    <TextBlock Text="Annual inspection" Style="{StaticResource AttributeLabelTextStyle}"/>
+                                </telerikPrimitives:RadialMenuItem.ToolTipContent>
+                            </telerikPrimitives:RadialMenuItem>
+                        </telerikPrimitives:RadialMenuItem>
+                        <telerikPrimitives:RadialMenuItem Header="Charging" Command="{StaticResource customCommand}">
+                            <telerikPrimitives:RadialMenuItem.CommandParameter>
+                                <datadefinitions:EventType>Charging</datadefinitions:EventType>
+                            </telerikPrimitives:RadialMenuItem.CommandParameter>
+                            <telerikPrimitives:RadialMenuItem.IconContent>
+                                <Image Source="/Images/Events/charging_station.png" Width="30" Height="30"/>
+                            </telerikPrimitives:RadialMenuItem.IconContent>
+                            <telerikPrimitives:RadialMenuItem.ToolTipContent>
+                                <TextBlock Text="Re-Charging" Style="{StaticResource AttributeLabelTextStyle}"/>
+                            </telerikPrimitives:RadialMenuItem.ToolTipContent>
+                        </telerikPrimitives:RadialMenuItem>
+                        <telerikPrimitives:RadialMenuItem Header="Expense" Command="{StaticResource customCommand}">
+                            <telerikPrimitives:RadialMenuItem.CommandParameter>
+                                <datadefinitions:EventType>Expense</datadefinitions:EventType>
+                            </telerikPrimitives:RadialMenuItem.CommandParameter>
+                            <telerikPrimitives:RadialMenuItem.IconContent>
+                                <Image Source="/Images/Events/expenses.png" Width="30" Height="30"/>
+                            </telerikPrimitives:RadialMenuItem.IconContent>
+                            <telerikPrimitives:RadialMenuItem.ToolTipContent>
+                                <TextBlock Text="General expenses" Style="{StaticResource AttributeLabelTextStyle}"/>
+                            </telerikPrimitives:RadialMenuItem.ToolTipContent>
+                        </telerikPrimitives:RadialMenuItem>
+                        <telerikPrimitives:RadialMenuItem Header="TollFee" Command="{StaticResource customCommand}">
+                            <telerikPrimitives:RadialMenuItem.CommandParameter>
+                                <datadefinitions:EventType>TollFee</datadefinitions:EventType>
+                            </telerikPrimitives:RadialMenuItem.CommandParameter>
+                            <telerikPrimitives:RadialMenuItem.IconContent>
+                                <Image Source="/Images/Events/toll_fee.png" Width="30" Height="30"/>
+                            </telerikPrimitives:RadialMenuItem.IconContent>
+                            <telerikPrimitives:RadialMenuItem.ToolTipContent>
+                                <TextBlock Text="Toll Fee" Style="{StaticResource AttributeLabelTextStyle}"/>
+                            </telerikPrimitives:RadialMenuItem.ToolTipContent>
+                        </telerikPrimitives:RadialMenuItem>
+                        <telerikPrimitives:RadialMenuItem Header="Wash" Command="{StaticResource customCommand}">
+                            <telerikPrimitives:RadialMenuItem.CommandParameter>
+                                <datadefinitions:EventType>Wash</datadefinitions:EventType>
+                            </telerikPrimitives:RadialMenuItem.CommandParameter>
+                            <telerikPrimitives:RadialMenuItem.IconContent>
+                                <Image Source="/Images/Events/wash.png" Width="30" Height="30"/>
+                            </telerikPrimitives:RadialMenuItem.IconContent>
+                            <telerikPrimitives:RadialMenuItem.ToolTipContent>
+                                <TextBlock Text="Vehicle washing" Style="{StaticResource AttributeLabelTextStyle}"/>
+                            </telerikPrimitives:RadialMenuItem.ToolTipContent>
+                        </telerikPrimitives:RadialMenuItem>
+                        <telerikPrimitives:RadialMenuItem Header="Action" Command="{StaticResource customCommand}">
+                            <telerikPrimitives:RadialMenuItem.CommandParameter>
+                                <datadefinitions:EventType>Action</datadefinitions:EventType>
+                            </telerikPrimitives:RadialMenuItem.CommandParameter>
+                            <telerikPrimitives:RadialMenuItem.IconContent>
+                                <Image Source="/Images/Events/action.png" Width="30" Height="30"/>
+                            </telerikPrimitives:RadialMenuItem.IconContent>
+                            <telerikPrimitives:RadialMenuItem.ToolTipContent>
+                                <TextBlock Text="Action" Style="{StaticResource AttributeLabelTextStyle}"/>
+                            </telerikPrimitives:RadialMenuItem.ToolTipContent>
+                        </telerikPrimitives:RadialMenuItem>
+                    </telerikPrimitives:RadRadialMenu>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Border>
+</UserControl>

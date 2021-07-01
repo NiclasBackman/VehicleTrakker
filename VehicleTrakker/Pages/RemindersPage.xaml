@@ -1,0 +1,110 @@
+﻿<Page
+    x:Class="NavigationTest.RemindersPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:NavigationTest"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:usercontrols="using:VehicleTrakker.UserControls" xmlns:datadefinitions="using:VehicleTrakker.DataDefinitions" xmlns:viewmodels="using:VehicleTrakker.ViewModels" xmlns:converters="using:VehicleTrakker.Converters"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <local:DateTimeOffsetToDateStringConverter x:Key="dateTimeOffsetToDateStringConverter"/>
+        <local:VehiclePersistenceStateToColorBrushConverter x:Key="vehiclePersistenceStateToColorBrushConverter"/>
+        <local:VehiclePersistenceStateToUpperBorderColorConverter x:Key="vehiclePersistenceStateToUpperBorderColorConverter"/>
+        <converters:ReminderStateToImageSourceConverter x:Key="reminderStateToImageSourceConverter"/>
+        <converters:ReminderStateToImageTooltipConverter x:Key="reminderStateToImageTooltipConverter"/>
+    </Page.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <!--<ColumnDefinition Width="*"/>-->
+        </Grid.ColumnDefinitions>
+        <Button Grid.Row="0" FontFamily="Segoe MDL2 Assets" Content="&#xE710;" FontSize="30" Command="{Binding AddReminderCommand}" Background="Transparent" Width="50" Margin="10" ToolTipService.ToolTip="Click to create a new reminder"/>
+        <ListView Grid.Row="1" ItemsSource="{Binding Reminders}" Grid.ColumnSpan="1">
+            <!--<ListView.HeaderTemplate>
+                <DataTemplate>
+                    <Grid Padding="12" Background="{ThemeResource SystemBaseLowColor}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="100"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Composition" Style="{ThemeResource CaptionTextBlockStyle}"/>
+                        <TextBlock Grid.Column="1" Text="Artist" Style="{ThemeResource CaptionTextBlockStyle}"/>
+                        <TextBlock Grid.Column="2" Text="Release Date" Style="{ThemeResource CaptionTextBlockStyle}"/>
+                    </Grid>
+                </DataTemplate>
+            </ListView.HeaderTemplate>-->
+            <ListView.ItemTemplate>
+                <DataTemplate x:Name="TableDataTemplate" x:DataType="viewmodels:ReminderViewModel">
+                    <Border Margin="10" BorderThickness="1" BorderBrush="{Binding CurrentState, Converter={StaticResource vehiclePersistenceStateToColorBrushConverter}}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="160"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Rectangle x:Name="DropShadow"  Margin="10,10,10,10" Height="10" Grid.ColumnSpan="2">
+                                <Rectangle.Fill>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                        <GradientStop Offset="0" Color="{Binding CurrentState, Converter={StaticResource vehiclePersistenceStateToUpperBorderColorConverter}}" />
+                                        <GradientStop Offset="1" Color="#00000000" />
+                                    </LinearGradientBrush>
+                                </Rectangle.Fill>
+                            </Rectangle>
+                            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
+                                <Image Source="{Binding State, Converter={StaticResource reminderStateToImageSourceConverter}}" Width="30" Height="30" Margin="10" ToolTipService.ToolTip="{Binding State, Converter={StaticResource reminderStateToImageTooltipConverter}}"/>
+                                <TextBlock  Text="Creation date: " Margin="10" Style="{StaticResource AttributeLabelTextStyle}"/>
+                            </StackPanel> 
+                            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding CreationDate, Mode=TwoWay, Converter={StaticResource dateTimeOffsetToDateStringConverter}}" Margin="10" Style="{StaticResource AttributeLabelTextStyle}"/>
+                            <TextBlock Grid.Row="1" Grid.Column="2" Text="Expiration date: " Margin="10" Style="{StaticResource AttributeLabelTextStyle}"/>
+                            <CalendarDatePicker Grid.Row="1" Grid.Column="3" Date="{Binding ExpirationDate, Mode=TwoWay}" Margin="10"/>
+                            <TextBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Top"  MinWidth="100" 
+                                 TextWrapping="Wrap" Margin="10" HorizontalContentAlignment="Left" AcceptsReturn="True" 
+                                 ScrollViewer.VerticalScrollBarVisibility="Auto" Text="{Binding Message, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                            <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="3">
+                                <TextBlock Text="Vehicle: " Margin="10,5,10,0" Style="{StaticResource AttributeLabelTextStyle}"/>
+                                <ComboBox ItemsSource="{Binding AllVehicles}" SelectedItem="{Binding SelectedVehicle, Mode=TwoWay}" Margin="10,0,10,0" ToolTipService.ToolTip="Select the current vehicle">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image Source="{Binding Brand, Converter={StaticResource explicitBrandNameToImageConverter}, Mode=TwoWay}" Width="25" Height="25"/>
+                                                <TextBlock Text="{Binding Path=Name}" Margin="10,0,0,0"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                            </StackPanel>
+                            <Button Grid.Row="4" Grid.Column="0" FontFamily="Segoe MDL2 Assets" Content="&#xE74E;" FontSize="30" Command="{Binding SaveReminderCommand}" Background="Transparent" HorizontalAlignment="Left" Margin="10" Style="{StaticResource DisabledButtonTransparentBackgroundStyle}"/>
+                            <Button Grid.Row="4" Grid.Column="4" FontFamily="Segoe MDL2 Assets" Content="&#xE74D;" FontSize="30" Command="{Binding DeleteReminderCommand}" Background="Transparent" HorizontalAlignment="Right" Margin="10" Style="{StaticResource DisabledButtonTransparentBackgroundStyle}"/>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <!--<ListView.ItemTemplate>
+                <DataTemplate x:Name="SingleLineDataTemplate" x:DataType="datadefinitions:Reminder">
+                    <StackPanel Orientation="Horizontal">
+                        <CalendarDatePicker Date="{Binding CreationDate, Mode=TwoWay}"/>
+                        <CalendarDatePicker Date="{Binding ExpirationDate, Mode=TwoWay}"/>
+                        <TextBlock Text="{Binding Message, Mode=TwoWay}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>-->
+        </ListView>
+    </Grid>
+</Page>

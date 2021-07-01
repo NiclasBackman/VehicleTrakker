@@ -1,0 +1,139 @@
+﻿<UserControl
+    x:Class="VehicleTrakker.UserControls.EditableEventUserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VehicleTrakker.UserControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:local1="using:NavigationTest" 
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls" 
+    xmlns:vehicletrakker="using:VehicleTrakker"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls" 
+    xmlns:converters="using:VehicleTrakker.Converters" xmlns:maps="using:Windows.UI.Xaml.Controls.Maps"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <local1:VehiclePersistenceStateToColorBrushConverter x:Key="vehiclePersistenceStateToColorBrushConverter"/>
+        <local1:VehiclePersistenceStateToUpperBorderColorConverter x:Key="vehiclePersistenceStateToUpperBorderColorConverter"/>
+        <converters:FileNameToImageSourceConverter x:Key="fileNameToImageSourceConverter"/>
+        <local1:EventTypeToImageSourceConverter x:Key="eventTypeToImageSourceConverter"/>
+        <converters:EventTypeToDescriptionTextConverter x:Key="eventTypeToDescriptionTextConverter"/>
+        <converters:StringExistanceValueToBooleanConverter x:Key="stringExistanceValueToBooleanConverter"/>
+        <converters:AttachmentsCountToBooleanConverter x:Key="attachmentsCountToBooleanConverter"/>
+        <converters:CostRelatedEventToVisibilityConverter x:Key="costRelatedEventToVisibilityConverter"/>
+        <converters:ObjectIsNullToBooleanConverter x:Key="objectIsNullToBooleanConverter"/>
+        <converters:ActionEventToLocationVisibilityConverter x:Key="actionEventToLocationVisibilityConverter"/>
+    </UserControl.Resources>
+    <Border Margin="10" BorderThickness="1" BorderBrush="{Binding CurrentState, Converter={StaticResource vehiclePersistenceStateToColorBrushConverter}}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <!--<RowDefinition Height="Auto"/>-->
+            </Grid.RowDefinitions>
+            <!--<Button Grid.Row="0" FontFamily="Segoe MDL2 Assets" Content="&#xE710;" FontSize="30" Command="{Binding AddEventCommand}" Background="Transparent" Width="50" Margin="10"/>-->
+            <Grid Grid.Row="0">
+                <!--<Border Margin="10" BorderThickness="1" BorderBrush="{Binding VehicleState, Converter={StaticResource vehiclePersistenceStateToColorBrushConverter}}">-->
+                <Grid Grid.Row="0" Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Rectangle x:Name="DropShadow"  Margin="0,0,0,10" Height="10" Grid.ColumnSpan="2">
+                        <Rectangle.Fill>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Offset="0" Color="{Binding CurrentState, Converter={StaticResource vehiclePersistenceStateToUpperBorderColorConverter}}" />
+                                <GradientStop Offset="1" Color="#00000000" />
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Margin="0,0,0,10" Grid.ColumnSpan="2">
+                        <Image Margin="0" Source="{Binding CurrentEvent.Type, Converter={StaticResource eventTypeToImageSourceConverter}, Mode=TwoWay}" Width="30" Height="30" HorizontalAlignment="Left"/>
+                        <TextBlock Style="{StaticResource AttributeLabelTextStyle}"  FontSize="25">
+                            <Run Text=" - "/>
+                            <Run Text="{Binding CurrentEvent.Type, Converter={StaticResource eventTypeToDescriptionTextConverter}}"/>
+                        </TextBlock>
+                    </StackPanel>
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Date:" Margin="0,10,10,10" Style="{StaticResource AttributeLabelTextStyle}"/>
+                    <CalendarDatePicker Grid.Row="2" Grid.Column="1" Margin="10" Date="{Binding EventDate, Mode=TwoWay}"/>
+                    <TextBlock Grid.Row="3" Grid.Column="0" Margin="0,10,10,10" Style="{StaticResource AttributeLabelTextStyle}">
+                        <Run Text="{Binding OdometerUnit}"/><Run Text=":"/>
+                    </TextBlock>
+                    <muxc:NumberBox Grid.Row="3" Grid.Column="1" Value="{Binding Odometer, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,10,40,10" PlaceholderText="Enter odometer value" Style="{StaticResource StyledNumberBox}"/>
+                    <TextBlock Grid.Row="4" Grid.Column="0" Margin="0,10,10,10" Style="{StaticResource AttributeLabelTextStyle}" Visibility="{Binding CurrentEvent.Type, Converter={StaticResource costRelatedEventToVisibilityConverter}}">
+                        <Run Text="{Binding CostUnit}"/><Run Text=":"/>
+                    </TextBlock>
+                    <muxc:NumberBox x:Name="costNumberBox" Grid.Row="4" Grid.Column="1" Value="{Binding Cost, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,10,40,10" PlaceholderText="Enter cost value" Style="{StaticResource StyledNumberBox}" Visibility="{Binding CurrentEvent.Type, Converter={StaticResource costRelatedEventToVisibilityConverter}}"/>
+                    <UserControl Grid.Row="5" Grid.Column="0"  Grid.ColumnSpan="2" Content="{Binding CurrentUserControl}" Margin="0"/>
+                    <controls:Expander Grid.Row="6" Header="Note" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Background="Transparent" FontFamily="Segoe UI" FontSize="16" Foreground="#FF4b4b4b" IsExpanded="{Binding Note, Converter={StaticResource stringExistanceValueToBooleanConverter}}">
+                        <TextBox TextWrapping="Wrap" MinWidth="250" Margin="0,10,0,10" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" AcceptsReturn="True" ScrollViewer.VerticalScrollBarVisibility="Auto" Text="{Binding Note, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    </controls:Expander>
+                    <controls:Expander Grid.Row="7" Header="Attachments" Grid.ColumnSpan="2" Background="Transparent" FontFamily="Segoe UI" FontSize="16" Foreground="#FF4b4b4b"
+                                       IsExpanded="{Binding Attachments, Converter={StaticResource attachmentsCountToBooleanConverter}}">
+                        <ListBox Background="Transparent" ItemsSource="{Binding Attachments}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Row="0" Text="{Binding Path=FileName}"/>
+                                        <StackPanel Grid.Row="1" Orientation="Horizontal">
+                                            <Button Height="30" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Padding="0" BorderThickness="0" Command="{Binding OpenAttachmentCommand}" Margin="10,0,10,0">
+                                                <Image Source="{Binding FileName, Converter={StaticResource fileNameToImageSourceConverter}}"/>
+                                            </Button>
+                                            <Button Height="30" FontFamily="Segoe MDL2 Assets" Content="&#xE74D;" FontSize="20" HorizontalAlignment="Stretch" Background="Transparent" Margin="10,0,0,0" VerticalAlignment="Stretch" Padding="0" BorderThickness="0" Command="{Binding DeleteAttachmentCommand}"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </controls:Expander>
+                    <controls:Expander HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsExpanded="{Binding Location, Converter={StaticResource objectIsNullToBooleanConverter}}" Grid.Row="8" Header="Location" Grid.ColumnSpan="2" Background="Transparent" FontFamily="Segoe UI" FontSize="16" Foreground="#FF4b4b4b" ToolTipService.ToolTip="Double click/tap in map to define/update position">
+                        <!--<maps:MapControl x:Name="map" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MinHeight="500"
+                                         MapServiceToken="aijFoQj5HExwyDNoKKLC~WV6FPJdjKuJ8Z5naTYswMQ~ArRzTeyPBwkfddflCd5tJobtcsat41p5PKIn66uQHkLw0JC9x53ibrUvDf5mZrrr"
+                                         MapProjection="WebMercator"
+                                         Style="Aerial3D"
+                                         ZoomLevel="15"
+                                         DesiredPitch="45"
+                                         MapDoubleTapped="HandleMapDoubleTapped"
+                                         MapRightTapped="HandleMapRightTapped">-->
+                        <maps:MapControl x:Name="map" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MinHeight="500"
+                                         MapServiceToken="aijFoQj5HExwyDNoKKLC~WV6FPJdjKuJ8Z5naTYswMQ~ArRzTeyPBwkfddflCd5tJobtcsat41p5PKIn66uQHkLw0JC9x53ibrUvDf5mZrrr"
+                                         MapProjection="{Binding MapProjection, Mode=TwoWay}"
+                                         Style="{Binding MapStyle, Mode=TwoWay}"
+                                         ZoomLevel="15"
+                                         DesiredPitch="45"
+                                         MapDoubleTapped="HandleMapDoubleTapped"
+                                         MapRightTapped="HandleMapRightTapped">
+                            <FlyoutBase.AttachedFlyout>
+                                <MenuFlyout x:Name="MapFlyout">
+                                    <MenuFlyoutItem Text="Clear position" Command="{Binding ClearPositionCommand}"/>
+                                    <MenuFlyoutItem Text="New position" Click="HandleNewPositionHereClicked"/>
+                                </MenuFlyout>
+                            </FlyoutBase.AttachedFlyout>
+                        </maps:MapControl>
+                    </controls:Expander>
+                    <Button Grid.Row="9" Grid.Column="0" FontFamily="Segoe MDL2 Assets" Content="&#xE74E;" FontSize="30" Command="{Binding SaveEventCommand}" Background="Transparent" Margin="0,10,0,10" HorizontalAlignment="Left" Style="{StaticResource DisabledButtonTransparentBackgroundStyle}" ToolTipService.ToolTip="Click to save changes"/>
+                    <Button Grid.Row="9" Grid.Column="0" FontFamily="Segoe MDL2 Assets" Content="&#xE723;" FontSize="30" Command="{Binding AddAttachmentCommand}" Background="Transparent" Margin="0,10,0,10" HorizontalAlignment="Right" ToolTipService.ToolTip="Click to add an attachment"/>
+                    <Button Grid.Row="9" Grid.Column="1" FontFamily="Segoe MDL2 Assets" Content="&#xE74D;" FontSize="30" Command="{Binding DeleteEventCommand}" Background="Transparent" Margin="0,10,0,10" HorizontalAlignment="Right" ToolTipService.ToolTip="Click to delete event"/>
+                </Grid>
+                <!--</Border>-->
+            </Grid>
+        </Grid>
+    </Border>
+</UserControl>
